@@ -6,8 +6,8 @@
 					<h3>热门品牌 <span>国际经典 品质保证</span></h3>
 				</template>
 				<template slot="more">
-					<a class="prev xtx-btn-brand" href="javascript:;">&lt;</a>
-					<a class="next xtx-btn-brand" href="javascript:;">&gt;</a>
+					<a class="prev xtx-btn-brand" href="javascript:;"><i class="iconfont icon-back"></i></a>
+					<a class="next xtx-btn-brand" href="javascript:;"><i class="iconfont icon-right"></i></a>
 				</template>
 			</HomeTitle>
 			<div class="brand-content">

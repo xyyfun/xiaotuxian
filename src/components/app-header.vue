@@ -1,36 +1,49 @@
 <template>
 	<header class="app-header">
 		<div class="container">
-			<h1 class="logo"><a to="/">小兔鲜儿</a></h1>
+			<h1 class="logo"><router-link to="/home">小兔鲜儿</router-link></h1>
 			<ul class="navs">
-				<li class="home"><a to="/">首页</a></li>
-				<li v-for="item in categoryDataList" :key="item.id">
+				<li class="home"><router-link to="/home">首页</router-link></li>
+				<li
+					v-for="(item, index) in categoryDataList"
+					:key="item.id"
+					@mouseenter="showNav(index)"
+					@mouseleave="hideNav(index)"
+				>
 					<a href="#">{{ item.name }}</a>
+					<AppHeaderNav :children="item.children" ref="open" />
 				</li>
 			</ul>
 			<div class="search">
-				<i class="iconfont icon-search"></i>
+				<i class="icon-search iconfont"></i>
 				<input type="text" placeholder="搜一搜" />
 			</div>
 			<div class="cart">
-				<a class="curr" href="#"> <i class="iconfont icon-cart"></i><em>2</em> </a>
+				<a class="curr" href="#"> <i class="icon-cart iconfont"></i><em>2</em> </a>
 			</div>
 		</div>
 	</header>
 </template>
 
 <script>
+import AppHeaderNav from '@/components/app-header-nav';
 import { mapState } from 'vuex';
 export default {
 	name: 'AppHeader',
-	data() {
-		return {};
-	},
 	computed: {
 		...mapState('category', ['categoryDataList']),
 	},
-	mounted() {
+	components: { AppHeaderNav },
+	created() {
 		this.$store.dispatch('category/getCategoryDataList');
+	},
+	methods: {
+		showNav(id) {
+			this.$refs.open[id].isShow = true;
+		},
+		hideNav(id) {
+			this.$refs.open[id].isShow = false;
+		},
 	},
 };
 </script>
@@ -57,6 +70,7 @@ export default {
 		width: 820px;
 		display: flex;
 		justify-content: space-around;
+		position: relative;
 		padding-left: 40px;
 		li {
 			margin-right: 40px;

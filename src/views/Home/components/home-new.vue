@@ -8,18 +8,18 @@
 				<template slot="more">
 					<a class="more" href="javascript:;">
 						<span>查看全部</span>
-						<i>&gt;</i>
+						<i class="iconfont icon-right"></i>
 					</a>
 				</template>
 			</HomeTitle>
 			<div class="home-content">
 				<ul>
 					<li v-for="item in result" :key="item.id">
-						<a href="javascript:;">
+						<router-link :to="`/goods/${item.id}`">
 							<img :src="item.picture" alt="" />
 							<p class="ellipsis">{{ item.desc }}</p>
 							<p>￥{{ item.price }}</p>
-						</a>
+						</router-link>
 					</li>
 				</ul>
 			</div>

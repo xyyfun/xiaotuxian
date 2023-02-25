@@ -16,12 +16,12 @@
 					<template slot="more">
 						<a class="more" href="javascript:;">
 							<span>查看全部</span>
-							<i>&gt;</i>
+							<i class="iconfont icon-right"></i>
 						</a>
 					</template>
 				</HomeTitle>
 				<div class="product-content">
-					<a class="cover" href="javascript:;">
+					<a href="javascript:;" class="cover">
 						<img :src="item.picture" alt="" />
 						<div class="lable">
 							<span>{{ item.name }}馆</span>
@@ -31,7 +31,9 @@
 					<ul class="goods-list">
 						<li v-for="goods in item.goods" :key="goods.id">
 							<div class="good-item">
-								<a class="image" href="javascript:;"><img :src="goods.picture" alt="" /></a>
+								<router-link :to="`/goods/${goods.id}`" class="image"
+									><img :src="goods.picture" alt=""
+								/></router-link>
 								<p class="name">{{ goods.name }}</p>
 								<p class="desc ellipsis">{{ goods.desc }}</p>
 								<p class="price">￥{{ goods.price }}</p>
@@ -140,7 +142,7 @@ export default {
 								border: 1px solid @xtxColor;
 							}
 							&:hover > .extra {
-								transform: translate3d(0, 0, 0);
+								transform: none;
 							}
 							.image {
 								display: block;

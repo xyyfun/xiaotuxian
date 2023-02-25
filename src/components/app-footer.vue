@@ -6,7 +6,7 @@
 				<dl>
 					<dt>客户服务</dt>
 					<dd><i class="iconfont icon-kefu"></i> 在线客服</dd>
-					<dd><i class="iconfont icon-question"></i> 问题反馈</dd>
+					<dd><i class="iconfont icon-yijianfankui"></i> 问题反馈</dd>
 				</dl>
 				<dl>
 					<dt>关注我们</dt>
@@ -33,15 +33,15 @@
 			<div class="container">
 				<div class="slogan">
 					<a href="javascript:;">
-						<i class="iconfont icon-footer01"></i>
+						<i class="iconfont icon-smile"></i>
 						<span>价格亲民</span>
 					</a>
 					<a href="javascript:;">
-						<i class="iconfont icon-footer02"></i>
+						<i class="iconfont icon-packing-labeling"></i>
 						<span>物流快捷</span>
 					</a>
 					<a href="javascript:;">
-						<i class="iconfont icon-footer03"></i>
+						<i class="iconfont icon-appreciate"></i>
 						<span>品质新鲜</span>
 					</a>
 				</div>

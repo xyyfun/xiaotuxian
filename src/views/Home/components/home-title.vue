@@ -1,20 +1,5 @@
 <template>
 	<div class="home-title">
-		<!-- <h3>
-			新鲜毫无
-			<span>新鲜出入 品质靠谱</span>
-		</h3>
-		<ul>
-			<li><a href="javascript:;">茶咖酒具</a></li>
-			<li><a href="javascript:;">茶咖酒具</a></li>
-			<li><a href="javascript:;">茶咖酒具</a></li>
-			<li><a href="javascript:;">茶咖酒具</a></li>
-			<li><a href="javascript:;">茶咖酒具</a></li>
-		</ul>
-		<a href="javascript:;">
-			<span>查看全部</span>
-			<i>&gt;</i>
-		</a> -->
 		<slot name="title"></slot>
 		<slot name="nav"></slot>
 		<slot name="more"></slot>
@@ -54,6 +39,7 @@ export default {
 				padding: 2px 12px;
 				font-size: 16px;
 				border-radius: 4px;
+				transition: all 0.1s;
 				&:hover {
 					color: #fff;
 					background-color: @xtxColor;
@@ -90,6 +76,9 @@ export default {
 		display: inline-block;
 		text-align: center;
 		margin-left: 5px;
+		i {
+			font-size: 14px;
+		}
 	}
 	.next {
 		background: #27ba9b;

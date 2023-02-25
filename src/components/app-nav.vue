@@ -2,13 +2,22 @@
 	<nav class="app-topnav">
 		<div class="container">
 			<ul>
-				<li>
-					<a href="javascript:;"><i class="iconfont icon-user"></i>周杰伦</a>
+				<li v-if="$store.state.user.userInfo.account">
+					<a href="javascript:;">
+						<i class="iconfont icon-icon-user"></i>
+						{{ $store.state.user.userInfo.account }}
+					</a>
 				</li>
-				<li><a href="javascript:;">退出登录</a></li>
-				<li><a href="javascript:;">请先登录</a></li>
-				<li><a href="javascript:;">免费注册</a></li>
-				<li><a href="javascript:;">我的订单</a></li>
+				<li v-if="$store.state.user.userInfo.id">
+					<a href="javascript:;" @click="loginOut">退出登录</a>
+				</li>
+				<li v-else>
+					<router-link to="/login">请先登录</router-link>
+				</li>
+				<li v-if="!$store.state.user.userInfo.id">
+					<router-link to="/register">免费注册</router-link>
+				</li>
+				<li><router-link to="/order">我的订单</router-link></li>
 				<li><a href="javascript:;">会员中心</a></li>
 				<li><a href="javascript:;">帮助中心</a></li>
 				<li><a href="javascript:;">关于我们</a></li>
@@ -21,7 +30,35 @@
 </template>
 
 <script>
-export default {};
+import { removeUserInfo } from '@/utils/userInfo';
+export default {
+	name: 'AppNav',
+	methods: {
+		loginOut() {
+			this.$confirm('确定退出吗？', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning',
+			})
+				.then(() => {
+					// 清空本地存储
+					removeUserInfo();
+					this.$store.commit('user/loginOut');
+					this.$message({
+						type: 'success',
+						message: '退出成功!',
+					});
+					this.$router.push('/login');
+				})
+				.catch(() => {
+					this.$message({
+						type: 'info',
+						message: '已取消退出',
+					});
+				});
+		},
+	},
+};
 </script>
 
 <style lang="less" scoped>

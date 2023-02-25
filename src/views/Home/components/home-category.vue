@@ -1,18 +1,21 @@
 <template>
 	<div class="home-category">
 		<ul class="menu">
-			<li>
-				<a href="javascript:;">居家</a>
-				<a href="javascript:;">居家</a>
-				<a href="javascript:;">居家</a>
+			<li v-for="item in wrapCategory" :key="item.id">
+				<a href="javascript:;">{{ item.name }}</a>
+				<a href="javascript:;" v-for="list in item.children" :key="list.id">{{ list.name }}</a>
 			</li>
 		</ul>
 	</div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
 	name: 'HomeCategory',
+	computed: {
+		...mapGetters('category', ['wrapCategory']),
+	},
 };
 </script>
 

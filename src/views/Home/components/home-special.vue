@@ -8,7 +8,7 @@
 				<template slot="more">
 					<a class="more" href="javascript:;">
 						<span>查看全部</span>
-						<i>&gt;</i>
+						<i class="iconfont icon-right"></i>
 					</a>
 				</template>
 			</HomeTitle>
@@ -25,9 +25,15 @@
 						</div>
 					</a>
 					<div class="foot">
-						<span class="like">喜欢：{{ item.collectNum }}</span>
-						<span class="view">看过：{{ item.viewNum }}</span>
-						<span class="reply">评论：{{ item.replyNum }}</span>
+						<span class="like">
+							<i class="iconfont icon-xihuan"></i>
+							{{ item.collectNum }}</span
+						>
+						<span class="view">
+							<i class="iconfont icon-yanjing"></i>
+							{{ item.viewNum }}</span
+						>
+						<span class="reply"><i class="iconfont icon-comment"></i>{{ item.replyNum }}</span>
 					</div>
 				</div>
 			</div>
@@ -130,6 +136,13 @@ export default {
 					line-height: 72px;
 					padding: 0 20px;
 					font-size: 16px;
+					i {
+						display: inline-block;
+						width: 15px;
+						height: 14px;
+						margin-right: 5px;
+						color: #333;
+					}
 					.like {
 						float: left;
 						margin-right: 25px;

@@ -1,9 +1,10 @@
 <template>
 	<div id="app">
-		<AppNav />
-		<AppHeader />
+		<AppNav v-if="this.$route.meta.isShowNav" />
+		<AppHeader v-if="this.$route.meta.isShowHeader" />
+		<AppHeaderSticky v-if="this.$route.meta.isShowHeaderSticky" />
 		<router-view></router-view>
-		<AppFooter />
+		<AppFooter v-if="this.$route.meta.isShowFooter" />
 	</div>
 </template>
 
@@ -11,8 +12,9 @@
 import AppNav from '@/components/app-nav';
 import AppFooter from '@/components/app-footer';
 import AppHeader from '@/components/app-header';
+import AppHeaderSticky from '@/components/app-header-sticky';
 export default {
 	name: 'App',
-	components: { AppNav, AppFooter, AppHeader },
+	components: { AppNav, AppFooter, AppHeader, AppHeaderSticky },
 };
 </script>
