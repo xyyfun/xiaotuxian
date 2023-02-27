@@ -4,12 +4,15 @@
 		<div class="media">
 			<div class="goods-image">
 				<div class="middle">
-					<img :src="imageUrl" alt="" />
+					<img :src="imageUrl || error" alt="" />
 					<div class="layer" ref="layer"></div>
 					<div class="aa" @mousemove="mouseIn"></div>
 				</div>
 				<!-- 大图 -->
-				<div class="large" :style="[{ backgroundImage: `url(${imageUrl})` }, bigPosition]"></div>
+				<div
+					class="large"
+					:style="[{ backgroundImage: `url(${imageUrl || error})` }, bigPosition]"
+				></div>
 				<!-- 右侧图片 -->
 				<ul class="small">
 					<li
@@ -18,7 +21,7 @@
 						v-for="(mainPictures, index) in result.mainPictures"
 						:key="index"
 					>
-						<img :src="mainPictures" alt="" />
+						<img :src="mainPictures || error" alt="" v-load-img="loadingImg" />
 					</li>
 				</ul>
 			</div>
@@ -83,7 +86,12 @@
 					<dt>{{ item.name }}</dt>
 					<dd>
 						<template v-for="value in item.values">
-							<img :src="value.picture" :title="value.name" v-if="value.picture" />
+							<img
+								:src="value.picture || error"
+								:title="value.name"
+								v-if="value.picture"
+								v-load-img="loadingImg"
+							/>
 							<span v-else>{{ value.name }}</span>
 						</template>
 					</dd>
@@ -103,12 +111,10 @@
 </template>
 
 <script>
-import { getGoodsDataList } from '@/api/goods';
 export default {
 	name: 'GoodsInfo',
 	data() {
 		return {
-			result: {},
 			// 数量
 			goodsNum: 1,
 			imageUrl: '',
@@ -116,13 +122,13 @@ export default {
 				backgroundPositionX: 0,
 				backgroundPositionY: 0,
 			},
+			error: require('../../../assets/images/200.png'),
 		};
 	},
+	props: ['result'],
 	watch: {
 		result() {
 			this.imageUrl = this.result.mainPictures[0];
-			this.$bus.$emit('bread', this.result.categories, this.result.name);
-			this.$emit('read');
 		},
 	},
 	methods: {
@@ -148,16 +154,20 @@ export default {
 		changImg(url) {
 			this.imageUrl = url;
 		},
+		loadingImg() {
+			this.$emit('load');
+		},
 	},
-	created() {
-		getGoodsDataList(this.$route.params.id).then(data => {
-			if (data.data.code === '1') {
-				this.result = data.data.result;
-			}
-		});
-	},
-	beforeDestroy() {
-		this.$off('bread');
+	directives: {
+		'load-img'(el, binding, VNode) {
+			el.onload = function () {
+				if (el.src) {
+					if (el.src.slice(0, 5) === 'https') {
+						VNode.context.loadingImg();
+					}
+				}
+			};
+		},
 	},
 };
 </script>
@@ -197,8 +207,8 @@ export default {
 				z-index: 999;
 				cursor: move;
 				img {
-					max-width: 100%;
-					max-height: 100%;
+					width: 400px;
+					height: 400px;
 					vertical-align: middle;
 				}
 				.aa {

@@ -85,7 +85,7 @@ export default {
 			};
 			login(data).then(data => {
 				if (data.data.code === '1') {
-					// token持久化
+					// 持久化用户信息
 					setUserInfo(JSON.stringify(data.data.result));
 					// 将token存储至vuex
 					this.$store.commit('user/setToken', data.data.result.token);

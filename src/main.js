@@ -6,6 +6,7 @@ import '@/assets/styles/common.less';
 import '@/assets/iconfont/iconfont.css';
 import plugin from './plugin';
 Vue.use(plugin);
+
 Vue.config.productionTip = false;
 
 new Vue({

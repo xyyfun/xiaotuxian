@@ -8,28 +8,12 @@
 				</nav>
 				<div class="goods-detail">
 					<ul class="attrs">
-						<li><span class="dt">适用季节</span><span class="dd">冬季、秋季</span></li>
-						<li><span class="dt">尺码</span><span class="dd">38、39、40、41、42、43、44</span></li>
-						<li><span class="dt">帮面材质</span><span class="dd">真皮</span></li>
-						<li>
-							<span class="dt">售后服务</span
-							><span class="dd"
-								>1、我们承诺按鞋品三包准则进行售后退换货等服务，详情可见内盒三包卡条约。
-								2、非质量问题的退换货，寄回时请保持商品的原始购买状态：内包装完好，吊牌及吊线完好（如有），无磨损，无污渍，无清洗。且不要遗忘任何私人物品于包装中</span
-							>
-						</li>
-						<li>
-							<span class="dt">品牌属性</span
-							><span class="dd">网易严选推荐选品，本产品为Gary.chen品牌，由Gary.chen生产制造 </span>
+						<li v-for="(prompt, index) in details.properties" :key="index">
+							<span class="dt">{{ prompt.name }}</span>
+							<span class="dd">{{ prompt.value }}</span>
 						</li>
 					</ul>
-					<img
-						src="https://yanxuan-item.nosdn.127.net/aea43d98167c842d70b9dd4e1e8cab18.jpg"
-						alt=""
-					/><img
-						src="https://yanxuan-item.nosdn.127.net/5547596426851c94413de7413b71adfb.jpg"
-						alt=""
-					/>
+					<img v-for="(img, index) in details.pictures" :key="index" v-lazy="img" alt="" />
 				</div>
 			</div>
 			<div class="goods-warn">
@@ -60,45 +44,32 @@
 			<div class="goods-hot">
 				<h3>24小时热销榜</h3>
 				<div>
-					<a class="goods-item"
-						><img alt="" src="" />
-						<p class="name ellipsis"></p>
-						<p class="desc ellipsis"></p>
-						<p class="price">¥</p></a
+					<router-link
+						:to="`/goods/${list.id}`"
+						class="goods-item"
+						v-for="list in dayHotList"
+						:key="list.id"
+						><img :src="list.picture" alt="" />
+						<p class="name ellipsis">{{ list.name }}</p>
+						<p class="desc ellipsis">{{ list.desc }}</p>
+						<p class="price">¥{{ list.price }}</p></router-link
 					>
 				</div>
 			</div>
 			<div class="goods-hot">
 				<h3>周热销榜</h3>
 				<div>
-					<a
-						aria-current="page"
-						href="#/product/3811050"
+					<router-link
+						:to="`/goods/${list.id}`"
+						v-for="list in weekHotList"
+						:key="list.id"
 						class="router-link-active router-link-exact-active goods-item"
-						><img
-							alt=""
-							src="https://yanxuan-item.nosdn.127.net/bfb1b8d93a34205bfa9f2f8e64150b24.png"
-						/>
-						<p class="name ellipsis">无惧踩泥涉水，男式牛皮工装切尔西靴</p>
-						<p class="desc ellipsis">商务精英的野心之选</p>
-						<p class="price">¥390.00</p></a
-					><a href="#/product/3441061" class="goods-item"
-						><img
-							alt=""
-							src="https://yanxuan-item.nosdn.127.net/18e583e27a7cd9f2fb25eca0507936db.png"
-						/>
-						<p class="name ellipsis">女式羊反绒流苏装饰轻便乐福鞋</p>
-						<p class="desc ellipsis">轻灵流苏，自由穿脱</p>
-						<p class="price">¥179.00</p></a
-					><a href="#/product/3989000" class="goods-item"
-						><img
-							alt=""
-							src="https://yanxuan-item.nosdn.127.net/c28641dbf14645f518ee01df668daca7.png"
-						/>
-						<p class="name ellipsis">酸爽酸菜鱼，麻香藤椒虾手工水饺360g</p>
-						<p class="desc ellipsis">严选食材，汤汁浓郁，两种口味吃不够</p>
-						<p class="price">¥19.90</p></a
 					>
+						<img :src="list.picture" alt="" />
+						<p class="name ellipsis">{{ list.name }}</p>
+						<p class="desc ellipsis">{{ list.desc }}</p>
+						<p class="price">¥{{ list.price }}</p>
+					</router-link>
 				</div>
 			</div>
 		</div>
@@ -108,6 +79,7 @@
 <script>
 export default {
 	name: 'GoodsFooter',
+	props: ['details', 'dayHotList', 'weekHotList'],
 };
 </script>
 

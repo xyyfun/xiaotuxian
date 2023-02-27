@@ -25,22 +25,25 @@
 									<a href="#/product/3828087" class="image"><img :src="goods.image" alt="" /></a>
 									<div class="info">
 										<p class="name ellipsis-2">{{ goods.name }}</p>
-										<p class="attr ellipsis" v-for="(params, index) in properties" :key="index">
+										<p
+											class="attr ellipsis"
+											v-for="(params, index) in goods.properties"
+											:key="index"
+										>
 											{{ params.propertyMainName }}:{{ params.propertyValueName }}
 										</p>
 									</div>
-									<div class="price">¥299</div>
-									<div class="count">x1</div>
+									<div class="price">¥{{ item.totalMoney }}</div>
+									<div class="count">x{{ item.totalNum }}</div>
 								</li>
 							</ul>
 						</div>
 						<div class="column state">
 							<p>待付款</p>
-							<!----><!----><!---->
 						</div>
 						<div class="column amount">
-							<p class="red">¥307</p>
-							<p>（含运费：¥8）</p>
+							<p class="red">¥{{ item.payMoney }}</p>
+							<p>（含运费：¥{{ item.postFee }}）</p>
 							<p>在线支付</p>
 						</div>
 						<div class="column action">
@@ -95,6 +98,18 @@ export default {
 			line-height: 60px;
 			display: flex;
 			border-bottom: 1px solid #f5f5f5;
+			> a {
+				width: 110px;
+				border-right: 1px solid #f5f5f5;
+				text-align: center;
+				font-size: 16px;
+			}
+			.active {
+				border-top: 2px solid #27ba9b;
+				height: 60px;
+				background: #fff;
+				line-height: 56px;
+			}
 		}
 		.order-list {
 			background: #fff;
