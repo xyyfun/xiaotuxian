@@ -5,7 +5,7 @@
 			<ul class="carousel-body">
 				<li class="carousel-item fade">
 					<div class="slider">
-						<router-link :to="`/goods/${list.id}`" v-for="list in same" :key="list.id"
+						<router-link :to="`/goods/${list.id}`" v-for="(list, index) in same" :key="index"
 							><img :src="list.picture" alt="" />
 							<p class="name ellipsis">{{ list.name }}</p>
 							<p class="price">¥{{ list.price }}</p></router-link

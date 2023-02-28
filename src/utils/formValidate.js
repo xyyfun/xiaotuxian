@@ -11,12 +11,12 @@ export const phoneValidate = val => {
 
 /**
  * @Date         : 2023-02-23 20:14:40
- * @description  : 六位数以上至少包含1个大小写字母，1个数字，1个特殊字符
+ * @description  : 由字母、数字、特殊字符，任意2种组成，1-9位
  * @param         {String} val:
  * @return        {Boolean}
  */
 export const passwordValidate = val => {
-	const rge = /^\S*(?=\S{6,})(?=\S*\d)(?=\S*[A-Z])(?=\S*[a-z])(?=\S*[!@#$%^&*? ])\S*$/;
+	const rge = /^(?![a-zA-Z]+$)(?!\d+$)(?![^\da-zA-Z\s]+$).{1,9}$/;
 	return rge.test(val);
 };
 
@@ -28,7 +28,7 @@ export const passwordValidate = val => {
  * @return        {Boolean}
  */
 export const confirmValidate = (val, password) => {
-	const rge = /^\S*(?=\S{6,})(?=\S*\d)(?=\S*[A-Z])(?=\S*[a-z])(?=\S*[!@#$%^&*? ])\S*$/;
+	const rge = /^(?![a-zA-Z]+$)(?!\d+$)(?![^\da-zA-Z\s]+$).{1,9}$/;
 	if (val === password && rge.test(val)) return true;
 	return false;
 };

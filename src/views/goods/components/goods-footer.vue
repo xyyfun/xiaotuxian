@@ -47,9 +47,9 @@
 					<router-link
 						:to="`/goods/${list.id}`"
 						class="goods-item"
-						v-for="list in dayHotList"
-						:key="list.id"
-						><img :src="list.picture" alt="" />
+						v-for="(list, index) in dayHotList"
+						:key="index"
+						><img v-lazy="list.picture" alt="" />
 						<p class="name ellipsis">{{ list.name }}</p>
 						<p class="desc ellipsis">{{ list.desc }}</p>
 						<p class="price">¥{{ list.price }}</p></router-link
@@ -61,11 +61,11 @@
 				<div>
 					<router-link
 						:to="`/goods/${list.id}`"
-						v-for="list in weekHotList"
-						:key="list.id"
+						v-for="(list, index) in weekHotList"
+						:key="index"
 						class="router-link-active router-link-exact-active goods-item"
 					>
-						<img :src="list.picture" alt="" />
+						<img v-lazy="list.picture" alt="" />
 						<p class="name ellipsis">{{ list.name }}</p>
 						<p class="desc ellipsis">{{ list.desc }}</p>
 						<p class="price">¥{{ list.price }}</p>

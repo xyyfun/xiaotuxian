@@ -10,27 +10,27 @@
 					<div class="form-item">
 						<div class="input">
 							<i class="iconfont icon-icon-user"></i>
-							<input type="text" v-model="phone" />
+							<input type="text" :class="{ active: validate.account }" v-model="account" />
 						</div>
-						<div class="error">请输入用户名</div>
+						<div class="error" v-if="!validate.account">请输入用户名</div>
 					</div>
 					<div class="form-item">
 						<div class="input">
 							<i class="iconfont icon-jiesuo"></i>
-							<input type="password" v-model="password" />
+							<input type="password" :class="{ active: validate.password }" v-model="password" />
 						</div>
-						<div class="error">请输入密码</div>
+						<div class="error" v-if="!validate.password">请输入密码</div>
 					</div>
 					<div class="form-item">
 						<div class="agree">
 							<div class="xtx-checked">
-								<i class="iconfont icon-duoxuanweixuanzhong"></i>
+								<i class="iconfont" :class="ico" @click="changChecked"></i>
 								<span>我已同意</span>
 								<a href="">《隐私条款》</a>
 								<span>和</span>
 								<a href="">《服务条款》</a>
 							</div>
-							<div class="error">请阅读并同意条款</div>
+							<div class="error" v-if="!validate.isChecked">请阅读并同意条款</div>
 						</div>
 					</div>
 					<a href="javascript:;" @click="userLogin" class="btn">立即登录</a>
@@ -54,50 +54,78 @@
 </template>
 
 <script>
-import { phoneValidate } from '@/utils/formValidate';
-import debounce from 'lodash/debounce';
 import { login } from '@/api/login';
 import { setUserInfo } from '@/utils/userInfo';
 export default {
 	name: 'LoginBody',
 	data() {
 		return {
-			phone: 'ceshi',
-			password: '123456',
-			isChecked: true,
+			account: '',
+			password: '',
+			ico: 'icon-duoxuanweixuanzhong',
 			validate: {
-				phone: false,
+				account: false,
+				password: false,
+				isChecked: false,
 			},
 		};
 	},
 	watch: {
-		phone: debounce(function (newValue) {
-			let result = phoneValidate(newValue);
-			if (result) this.validate.phone = true;
-			console.log(123);
-		}, 500),
+		account(newVal) {
+			if (newVal) return (this.validate.account = true);
+			this.validate.account = false;
+		},
+		password(newVal) {
+			if (newVal) return (this.validate.password = true);
+			this.validate.password = false;
+		},
 	},
 	methods: {
+		// 用户登录
 		userLogin() {
-			let data = {
-				account: this.phone,
-				password: this.password,
-			};
-			login(data).then(data => {
-				if (data.data.code === '1') {
-					// 持久化用户信息
-					setUserInfo(JSON.stringify(data.data.result));
-					// 将token存储至vuex
-					this.$store.commit('user/setToken', data.data.result.token);
-					// 将用户信息存储vux
-					this.$store.commit('user/setUserInfo', data.data.result);
-					this.$message({
-						message: '登录成功！',
-						type: 'success',
-					});
-					this.$router.push('/home');
-				}
-			});
+			if (Object.values(this.validate).includes(false)) {
+				this.$message({
+					message: '警告信息！请确保信息填写完整',
+					type: 'warning',
+				});
+			} else {
+				let data = {
+					account: this.account,
+					password: this.password,
+				};
+				login(data).then(
+					data => {
+						if (data.data.code === '1') {
+							// 持久化用户信息
+							setUserInfo(JSON.stringify(data.data.result));
+							// 将token存储至vuex
+							this.$store.commit('user/setToken', data.data.result.token);
+							// 将用户信息存储vux
+							this.$store.commit('user/setUserInfo', data.data.result);
+							this.$message({
+								message: '登录成功！',
+								type: 'success',
+							});
+							this.$router.push('/home');
+						}
+					},
+					error => {
+						this.$message({
+							message: error.message,
+							type: 'error',
+						});
+					}
+				);
+			}
+		},
+		changChecked() {
+			if (this.validate.isChecked) {
+				this.validate.isChecked = false;
+				this.ico = 'icon-duoxuanweixuanzhong';
+			} else {
+				this.validate.isChecked = true;
+				this.ico = 'icon-duoxuanxuanzhong';
+			}
 		},
 	},
 };
@@ -161,11 +189,7 @@ export default {
 						i {
 							width: 34px;
 							height: 34px;
-							background: #cfcdcd;
-							color: #fff;
 							position: absolute;
-							left: 1px;
-							top: 1px;
 							text-align: center;
 							line-height: 34px;
 							font-size: 24px;
@@ -178,9 +202,10 @@ export default {
 							width: 100%;
 						}
 					}
-					.xtx-checkbox {
-						display: inline-block;
-						margin-right: 2px;
+					.xtx-checked {
+						i {
+							cursor: pointer;
+						}
 					}
 				}
 				.btn {
@@ -194,7 +219,7 @@ export default {
 				}
 				.error {
 					position: absolute;
-					font-size: 12px;
+					font-size: 14px;
 					line-height: 28px;
 					color: #cf4444;
 				}

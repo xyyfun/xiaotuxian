@@ -43,7 +43,7 @@
 							placeholder="设置6至20位字母、数字和符号组合"
 							:class="{ yes: verify.password }"
 						/>
-						<span class="msg" v-if="!verify.password">设置6至20位字母、数字和符号组合</span>
+						<span class="msg" v-if="!verify.password">设置1-9位字母、数字和符号任意两项组合</span>
 					</div>
 					<div class="xtx-form-item">
 						<span class="iconfont icon-jiesuo"></span>
@@ -61,7 +61,7 @@
 						<span v-if="icon === 'icon-duoxuanweixuanzhong'">请同意协议</span>
 					</div>
 					<div class="xtx-form-item">
-						<button class="submit" @click="registerUser">下一步</button>
+						<button class="submit" @click.prevent="registerUser">下一步</button>
 						<!-- <a class="submit" href="javascript:;">下一步</a> -->
 					</div>
 				</form>
@@ -85,25 +85,25 @@ export default {
 			userName: '',
 			phone: '',
 			code: '',
-			password: 'Li123@',
-			confirm: 'Li123@',
+			password: '',
+			confirm: '',
 			verify: {
-				userName: true,
-				phone: true,
-				code: true,
-				password: true,
-				confirm: true,
-				agreement: true,
+				userName: false,
+				phone: false,
+				code: false,
+				password: false,
+				confirm: false,
+				agreement: false,
 			},
-			icon: 'icon-duoxuanxuanzhong',
+			icon: 'icon-duoxuanweixuanzhong',
 		};
 	},
 	watch: {
 		userName(newVal) {
 			isUnique(newVal).then(data => {
 				if (data.data.code === '1') {
-					if (data.data.result.valid) return (this.verify.userName = true);
-					this.verify.userName = false;
+					if (data.data.result.valid) return (this.verify.userName = false);
+					this.verify.userName = true;
 				} else {
 					return Promise.reject(new Error('file'));
 				}
@@ -128,12 +128,19 @@ export default {
 	},
 	methods: {
 		sendCode() {
-			getCode(this.phone).then(data => {
-				if (data.data.code === '1') {
-					this.code = 123456;
-					this.verify.code = true;
-				}
-			});
+			if (this.verify.phone) {
+				getCode(this.phone).then(data => {
+					if (data.data.code === '1') {
+						this.code = 123456;
+						this.verify.code = true;
+					}
+				});
+			} else {
+				this.$message({
+					message: '警告信息！请输入手机号后再发送',
+					type: 'warning',
+				});
+			}
 		},
 		changChecked() {
 			if (this.verify.agreement) {
@@ -146,7 +153,10 @@ export default {
 		},
 		registerUser() {
 			if (Object.values(this.verify).includes(false)) {
-				alert('请输入完整信息');
+				this.$message({
+					message: '警告信息！请确保信息填写完整',
+					type: 'warning',
+				});
 			} else {
 				let data = {
 					account: this.userName,
@@ -154,9 +164,24 @@ export default {
 					code: this.code,
 					password: this.password,
 				};
-				register(data).then(data => {
-					console.log(data);
-				});
+				register(data).then(
+					data => {
+						if (data.data.code === '1') {
+							this.$message({
+								message: '恭喜您，注册成功！',
+								type: 'message',
+							});
+							this.$router.push('/login');
+						}
+					},
+					error => {
+						console.log(error);
+						this.$message({
+							message: error.message,
+							type: 'error',
+						});
+					}
+				);
 			}
 		},
 	},

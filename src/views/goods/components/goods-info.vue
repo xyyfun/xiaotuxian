@@ -16,10 +16,10 @@
 				<!-- 右侧图片 -->
 				<ul class="small">
 					<li
-						:class="{ active: mainPictures === imageUrl }"
 						@click="changImg(mainPictures)"
 						v-for="(mainPictures, index) in result.mainPictures"
 						:key="index"
+						:class="{ active: mainPictures === imageUrl }"
 					>
 						<img :src="mainPictures || error" alt="" v-load-img="loadingImg" />
 					</li>
@@ -85,14 +85,18 @@
 				<dl v-for="item in result.specs" :key="item.id">
 					<dt>{{ item.name }}</dt>
 					<dd>
-						<template v-for="value in item.values">
+						<template v-for="value in item.values" :key="">
 							<img
+								:class="{ selected: value.selected }"
 								:src="value.picture || error"
 								:title="value.name"
 								v-if="value.picture"
 								v-load-img="loadingImg"
+								@click="clickSpecs(item, value)"
 							/>
-							<span v-else>{{ value.name }}</span>
+							<span @click="clickSpecs(item, value)" :class="{ selected: value.selected }" v-else>{{
+								value.name
+							}}</span>
 						</template>
 					</dd>
 				</dl>
@@ -105,12 +109,13 @@
 					<a @click="goodsNum++" href="javascript:;">+</a>
 				</div>
 			</div>
-			<button class="primary">加入购物车</button>
+			<button class="primary" @click="addCartGoods">加入购物车</button>
 		</div>
 	</div>
 </template>
 
 <script>
+import { addCart } from '@/api/cart';
 export default {
 	name: 'GoodsInfo',
 	data() {
@@ -127,8 +132,8 @@ export default {
 	},
 	props: ['result'],
 	watch: {
-		result() {
-			this.imageUrl = this.result.mainPictures[0];
+		result(newVal) {
+			if (newVal.mainPictures) this.imageUrl = this.result.mainPictures[0];
 		},
 	},
 	methods: {
@@ -151,8 +156,22 @@ export default {
 			this.bigPosition.backgroundPositionX = -left * 2 + 'px';
 			this.bigPosition.backgroundPositionY = -top * 2 + 'px';
 		},
+		addCartGoods() {
+			addCart(300208706, this.goodsNum).then(data => {
+				if (data.data.code === '1') {
+					this.$message({
+						message: '加入购物车成功！',
+						type: 'success',
+					});
+					this.$store.dispatch('cart/getCartDataList');
+				}
+			});
+		},
 		changImg(url) {
 			this.imageUrl = url;
+		},
+		clickSpecs(item, val) {
+			this.$emit('changSpecs', item, val);
 		},
 		loadingImg() {
 			this.$emit('load');
@@ -241,7 +260,8 @@ export default {
 					margin-bottom: 15px;
 					cursor: pointer;
 				}
-				.active {
+				.active,
+				.selected {
 					border: 2px solid #27ba9b;
 				}
 			}
@@ -399,6 +419,9 @@ export default {
 						border: 1px solid #e4e4e4;
 						margin-right: 10px;
 						cursor: pointer;
+					}
+					> .selected {
+						border-color: #27ba9b;
 					}
 				}
 			}

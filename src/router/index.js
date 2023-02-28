@@ -1,11 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
-import Home from '@/views/Home';
-import Login from '@/views/Login';
-import Register from '@/views/Register';
-import Goods from '@/views/goods';
-import Order from '@/views/order';
 const router = new VueRouter({
 	routes: [
 		{
@@ -14,7 +9,7 @@ const router = new VueRouter({
 		},
 		{
 			path: '/home',
-			component: Home,
+			component: () => import('@/views/Home'),
 			meta: {
 				isShowNav: true,
 				isShowHeader: true,
@@ -24,11 +19,11 @@ const router = new VueRouter({
 		},
 		{
 			path: '/login',
-			component: Login,
+			component: () => import('@/views/Login'),
 		},
 		{
 			path: '/register',
-			component: Register,
+			component: () => import('@/views/Register'),
 			meta: {
 				isShowNav: true,
 				isShowHeader: true,
@@ -37,7 +32,7 @@ const router = new VueRouter({
 		},
 		{
 			path: '/goods/:id',
-			component: Goods,
+			component: () => import('@/views/goods'),
 			meta: {
 				isShowNav: true,
 				isShowHeader: true,
@@ -47,7 +42,17 @@ const router = new VueRouter({
 		},
 		{
 			path: '/order',
-			component: Order,
+			component: () => import('@/views/order'),
+			meta: {
+				isShowNav: true,
+				isShowHeader: true,
+				isShowHeaderSticky: true,
+				isShowFooter: true,
+			},
+		},
+		{
+			path: '/cart',
+			component: () => import('@/views/cart'),
 			meta: {
 				isShowNav: true,
 				isShowHeader: true,

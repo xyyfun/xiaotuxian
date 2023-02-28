@@ -2,7 +2,7 @@
 	<div class="xtx-goods-page">
 		<div class="container" v-show="elementOver">
 			<AppBread />
-			<GoodsInfo :result="goodsData" @load="over" />
+			<GoodsInfo :result="goodsData" @load="over" @changSpecs="handlerSpecs" />
 			<GoodsRelevant :same="same" />
 			<GoodsFooter :details="details" :weekHotList="weekHotList" :dayHotList="dayHotList" />
 		</div>
@@ -53,6 +53,9 @@ export default {
 			immediate: true,
 			handler(to) {
 				this.result = {};
+				this.elementOver = false;
+				this.loadImgNum = 0;
+				this.waitImgNum = 0;
 				let id = to.params.id;
 				this.hot(id);
 				this.week(id);
@@ -60,17 +63,26 @@ export default {
 				this.goods(id);
 			},
 		},
-		result() {
-			let i = 0;
-			this.result.specs.forEach(e => {
-				e.values.forEach(e => {
-					if (e.picture) i++;
+		result(newVal) {
+			if (newVal.specs) {
+				let i = 0;
+				this.result.specs.forEach(e => {
+					e.values.forEach(e => {
+						if (e.picture) i++;
+					});
 				});
-			});
-			this.result.mainPictures.forEach(e => {
-				if (e) i++;
-			});
-			this.waitImgNum = i;
+				this.result.mainPictures.forEach(e => {
+					if (e) i++;
+				});
+				this.waitImgNum = i;
+				// 给商品属性添加 selected 属性
+				newVal.specs.forEach(element => {
+					element.values.forEach(e => {
+						// 响应式
+						this.$set(e, 'selected', false);
+					});
+				});
+			}
 		},
 	},
 	components: { AppBread, GoodsInfo, GoodsRelevant, GoodsFooter },
@@ -108,10 +120,32 @@ export default {
 				}
 			});
 		},
+		// 图片加载完成加载此函数 将 elementOver 改为 true
 		over() {
 			this.loadImgNum++;
 			if (this.waitImgNum) {
 				if (this.waitImgNum === this.loadImgNum) this.elementOver = true;
+			}
+		},
+		// 修改商品选中状态
+		handlerSpecs(item, val) {
+			this.getPathMap();
+			if (val.selected) {
+				val.selected = false;
+			} else {
+				item.values.forEach(bv => {
+					bv.selected = false;
+				});
+				val.selected = true;
+			}
+		},
+		getPathMap() {
+			if (this.result.id) {
+				this.result.skus.forEach(sku => {
+					if (sku.inventory) {
+						const a = sku.specs.map(spec => spec.valueName);
+					}
+				});
 			}
 		},
 	},

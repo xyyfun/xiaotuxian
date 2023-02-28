@@ -16,5 +16,9 @@ import AppHeaderSticky from '@/components/app-header-sticky';
 export default {
 	name: 'App',
 	components: { AppNav, AppFooter, AppHeader, AppHeaderSticky },
+	created() {
+		this.$store.dispatch('category/getCategoryDataList');
+		this.$store.dispatch('cart/getCartDataList');
+	},
 };
 </script>
