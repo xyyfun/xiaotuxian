@@ -3,10 +3,10 @@
 		<div class="container">
 			<ul>
 				<li v-if="$store.state.user.userInfo.account">
-					<a href="javascript:;">
+					<router-link to="/member">
 						<i class="iconfont icon-icon-user"></i>
 						{{ $store.state.user.userInfo.account }}
-					</a>
+					</router-link>
 				</li>
 				<li v-if="$store.state.user.userInfo.id">
 					<a href="javascript:;" @click="loginOut">退出登录</a>
@@ -17,7 +17,7 @@
 				<li v-if="!$store.state.user.userInfo.id">
 					<router-link to="/register">免费注册</router-link>
 				</li>
-				<li><router-link to="/order">我的订单</router-link></li>
+				<li><router-link to="/member/order">我的订单</router-link></li>
 				<li><a href="javascript:;">会员中心</a></li>
 				<li><a href="javascript:;">帮助中心</a></li>
 				<li><a href="javascript:;">关于我们</a></li>

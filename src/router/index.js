@@ -7,6 +7,7 @@ const router = new VueRouter({
 			path: '*',
 			redirect: '/home',
 		},
+
 		{
 			path: '/home',
 			component: () => import('@/views/Home'),
@@ -41,14 +42,57 @@ const router = new VueRouter({
 			},
 		},
 		{
-			path: '/order',
-			component: () => import('@/views/order'),
+			path: '/member',
+			component: () => import('@/views/member'),
 			meta: {
 				isShowNav: true,
 				isShowHeader: true,
 				isShowHeaderSticky: true,
 				isShowFooter: true,
 			},
+			// 二级路由
+			children: [
+				{
+					path: '/member',
+					component: () => import('@/views/member/home'),
+					meta: {
+						isShowNav: true,
+						isShowHeader: true,
+						isShowHeaderSticky: true,
+						isShowFooter: true,
+					},
+				},
+				{
+					path: 'order',
+					component: () => import('@/views/member/order'),
+					meta: {
+						isShowNav: true,
+						isShowHeader: true,
+						isShowHeaderSticky: true,
+						isShowFooter: true,
+					},
+				},
+				{
+					path: 'address',
+					component: () => import('@/views/member/address'),
+					meta: {
+						isShowNav: true,
+						isShowHeader: true,
+						isShowHeaderSticky: true,
+						isShowFooter: true,
+					},
+				},
+				{
+					path: 'safe',
+					component: () => import('@/views/member/safe'),
+					meta: {
+						isShowNav: true,
+						isShowHeader: true,
+						isShowHeaderSticky: true,
+						isShowFooter: true,
+					},
+				},
+			],
 		},
 		{
 			path: '/cart',

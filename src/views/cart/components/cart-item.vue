@@ -61,7 +61,7 @@ export default {
 		this.$bus.$on('action', this.changAllSelected);
 	},
 	beforeDestroy() {
-		this.$off('action');
+		this.$bus.$off('action');
 	},
 };
 </script>

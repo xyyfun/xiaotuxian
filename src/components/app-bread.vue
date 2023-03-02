@@ -28,6 +28,9 @@ export default {
 	mounted() {
 		this.$bus.$on('bread', this.bread);
 	},
+	beforeDestroy() {
+		this.$bus.$off('bread');
+	},
 };
 </script>
 

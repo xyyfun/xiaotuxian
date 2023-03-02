@@ -3,7 +3,7 @@
 		<div class="container" v-show="elementOver">
 			<AppBread />
 			<GoodsInfo :result="goodsData" @load="over" @changSpecs="handlerSpecs" />
-			<GoodsRelevant :same="same" />
+			<XtxGuess title="同类推荐" :id="result.id" />
 			<GoodsFooter :details="details" :weekHotList="weekHotList" :dayHotList="dayHotList" />
 		</div>
 		<div class="load" v-if="!elementOver">
@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import { getHotList, getSame, getGoodsDataList } from '@/api/goods';
+import { getHotList, getGoodsDataList } from '@/api/goods';
 import AppBread from '@/components/app-bread';
 import GoodsInfo from './components/goods-info';
-import GoodsRelevant from './components/goods-relevant';
+import XtxGuess from '@/components/library/xtx-guess';
 import GoodsFooter from './components/goods-footer';
 export default {
 	name: 'Goods',
@@ -27,7 +27,6 @@ export default {
 			details: {}, // 商品底部信息
 			dayHotList: [], // 24小时热销
 			weekHotList: [], // 周销
-			same: [], // 同类推荐
 			result: {}, // 商品数据
 			elementOver: false, // 是否显示商品
 			loadImgNum: 0, // 加载完毕的图片数
@@ -59,7 +58,6 @@ export default {
 				let id = to.params.id;
 				this.hot(id);
 				this.week(id);
-				this.sameRec(id);
 				this.goods(id);
 			},
 		},
@@ -85,7 +83,7 @@ export default {
 			}
 		},
 	},
-	components: { AppBread, GoodsInfo, GoodsRelevant, GoodsFooter },
+	components: { AppBread, GoodsInfo, XtxGuess, GoodsFooter },
 	methods: {
 		// 24小时热榜
 		hot(id) {
@@ -100,14 +98,6 @@ export default {
 			getHotList(id, 4, 2).then(data => {
 				if (data.data.code === '1') {
 					this.weekHotList = data.data.result;
-				}
-			});
-		},
-		sameRec(id) {
-			// 同类推荐
-			getSame(id, 4).then(data => {
-				if (data.data.code === '1') {
-					this.same = data.data.result;
 				}
 			});
 		},
@@ -144,13 +134,11 @@ export default {
 				this.result.skus.forEach(sku => {
 					if (sku.inventory) {
 						const a = sku.specs.map(spec => spec.valueName);
+						console.log(sku.specs);
 					}
 				});
 			}
 		},
-	},
-	beforeDestroy() {
-		this.$off('load');
 	},
 };
 </script>

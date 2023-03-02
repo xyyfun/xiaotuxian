@@ -6,12 +6,16 @@
 					<h3>热门品牌 <span>国际经典 品质保证</span></h3>
 				</template>
 				<template slot="more">
-					<a class="prev xtx-btn-brand" href="javascript:;"><i class="iconfont icon-back"></i></a>
-					<a class="next xtx-btn-brand" href="javascript:;"><i class="iconfont icon-right"></i></a>
+					<a class="xtx-btn-brand" :class="isLeft ? 'next' : 'prev'" href="javascript:;"
+						><i @click="moveBrand('l')" class="iconfont icon-back"></i
+					></a>
+					<a class="xtx-btn-brand" :class="isRight ? 'next' : 'prev'" href="javascript:;"
+						><i @click="moveBrand('r')" class="iconfont icon-right"></i
+					></a>
 				</template>
 			</HomeTitle>
 			<div class="brand-content">
-				<ul>
+				<ul :class="{ move: isLeft }">
 					<li v-for="item in brandDataList" :key="item.id">
 						<a href="javascript:;"><img :src="item.picture" alt="" /></a>
 					</li>
@@ -29,10 +33,27 @@ export default {
 	data() {
 		return {
 			brandDataList: [],
+			isLeft: false,
+			isRight: true,
 		};
 	},
 	components: {
 		HomeTitle,
+	},
+	methods: {
+		moveBrand(a) {
+			if (a === 'l') {
+				if (this.isLeft) {
+					this.isLeft = !this.isLeft;
+					this.isRight = !this.isRight;
+				}
+			} else {
+				if (this.isRight) {
+					this.isLeft = !this.isLeft;
+					this.isRight = !this.isRight;
+				}
+			}
+		},
 	},
 	mounted() {
 		getBrand().then(data => {
@@ -55,6 +76,7 @@ export default {
 		ul {
 			display: flex;
 			width: 200%;
+			transition: all 1s ease;
 			li {
 				margin-right: 10px;
 				width: 240px;
@@ -66,6 +88,9 @@ export default {
 					}
 				}
 			}
+		}
+		.move {
+			transform: translateX(-50%);
 		}
 	}
 }

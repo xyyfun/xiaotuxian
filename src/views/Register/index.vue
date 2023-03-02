@@ -58,7 +58,7 @@
 					<div class="xtx-form-item pl50">
 						<i class="iconfont" :class="icon" @click="changChecked"></i>
 						已阅读并同意<i>《用户服务协议》</i>
-						<span v-if="icon === 'icon-duoxuanweixuanzhong'">请同意协议</span>
+						<span v-if="icon === 'icon-duoxuanweixuanzhong'">请同意用户协议条款</span>
 					</div>
 					<div class="xtx-form-item">
 						<button class="submit" @click.prevent="registerUser">下一步</button>
@@ -228,9 +228,7 @@ export default {
 					}
 					.msg {
 						color: #ff4d4f;
-						position: absolute;
-						left: 2px;
-						bottom: 2px;
+						padding-left: 10px;
 					}
 					a {
 						position: absolute;
@@ -265,9 +263,7 @@ export default {
 						font-size: 14px;
 					}
 					span {
-						position: absolute;
-						top: 20px;
-						left: 0;
+						padding-left: 95px;
 						color: #ff4d4f;
 					}
 				}

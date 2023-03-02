@@ -1,6 +1,8 @@
 <template>
 	<div class="goods-relevant">
-		<div class="header"><i class="icon"></i><span class="title">猜你喜欢</span></div>
+		<div class="header">
+			<i class="icon"></i><span class="title">{{ title || '猜你喜欢' }}</span>
+		</div>
 		<div class="xtx-carousel">
 			<ul class="carousel-body">
 				<li class="carousel-item fade">
@@ -24,14 +26,15 @@
 <script>
 import { getSame } from '@/api/goods';
 export default {
-	name: 'CartGuess',
+	name: 'XtxGuess',
 	data() {
 		return {
 			result: [],
 		};
 	},
+	props: ['title', 'id'],
 	created() {
-		getSame('', 4).then(data => {
+		getSame(this.id, 4).then(data => {
 			if (data.data.code === '1') {
 				this.result = data.data.result;
 			}

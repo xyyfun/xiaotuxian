@@ -4,7 +4,7 @@
 			<AppBread />
 			<CartItem />
 			<CartAction />
-			<CartGuess />
+			<XtxGuess />
 		</div>
 	</div>
 </template>
@@ -13,10 +13,11 @@
 import AppBread from '@/components/app-bread';
 import CartItem from './components/cart-item';
 import CartAction from './components/cart-action';
-import CartGuess from './components/cart-guess';
+import XtxGuess from '@/components/library/xtx-guess';
+
 export default {
 	name: 'Cart',
-	components: { AppBread, CartItem, CartAction, CartGuess },
+	components: { AppBread, CartItem, CartAction, XtxGuess },
 };
 </script>
 

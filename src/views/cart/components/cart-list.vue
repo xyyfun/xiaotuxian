@@ -44,7 +44,9 @@
 			</div>
 		</td>
 		<td class="tc">
-			<p class="f16 red">¥{{ total }}（含邮费：￥{{ item.postFee }}）</p>
+			<p class="f16 red">
+				¥{{ total }}<template v-if="item.postFee > 0">（含邮费：￥{{ item.postFee }}）</template>
+			</p>
 		</td>
 		<td class="tc">
 			<p><a href="javascript:;">移入收藏夹</a></p>

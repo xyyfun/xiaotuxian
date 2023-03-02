@@ -188,6 +188,9 @@ export default {
 			};
 		},
 	},
+	beforeDestroy() {
+		this.$off(['changSpecs', 'load']);
+	},
 };
 </script>
 

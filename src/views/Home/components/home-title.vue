@@ -83,5 +83,8 @@ export default {
 	.next {
 		background: #27ba9b;
 	}
+	.prev {
+		cursor: not-allowed;
+	}
 }
 </style>
