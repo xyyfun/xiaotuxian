@@ -19,7 +19,7 @@ export default {
 		setUserInfo(state, val) {
 			state.userInfo = val;
 		},
-		// 移除token 用户信息
+		// 移除token | 用户信息
 		loginOut(state) {
 			state.token = null;
 			state.userInfo = {};

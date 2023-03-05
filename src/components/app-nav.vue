@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { removeUserInfo } from '@/utils/userInfo';
+import { removeUserInfo, removeToken } from '@/utils/userInfo';
 export default {
 	name: 'AppNav',
 	methods: {
@@ -41,8 +41,8 @@ export default {
 				type: 'warning',
 			})
 				.then(() => {
-					// 清空本地存储
-					removeUserInfo();
+					removeUserInfo(); // 清空本地存储
+					removeToken(); // 清空本地token
 					this.$store.commit('user/loginOut');
 					this.$message({
 						type: 'success',

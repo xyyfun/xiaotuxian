@@ -5,7 +5,7 @@
 			<i class="iconfont icon-right"></i>
 		</div>
 		<div class="xtx-bread-item" v-for="(item, index) in result" :key="index">
-			<a href="" class="router-link-active">{{ item.name }}</a>
+			<router-link :to="`/${item.id}`" class="router-link-active">{{ item.name }}</router-link>
 			<i class="iconfont icon-right"></i>
 		</div>
 	</div>
@@ -20,9 +20,15 @@ export default {
 		};
 	},
 	methods: {
-		bread(a, b) {
-			a.reverse().push({ name: b });
-			this.result = a;
+		bread(data, name, id) {
+			this.result = data.reverse();
+			if (id) {
+				this.result.push({
+					id,
+					name,
+					layer: this.result.length + 1,
+				});
+			}
 		},
 	},
 	mounted() {

@@ -7,37 +7,15 @@
 					<router-view></router-view>
 				</transition>
 			</article>
-			<XtxCancelWindowVue v-if="isShowWindow" />
 		</div>
 	</div>
 </template>
 
 <script>
 import AppMemberAside from '@/components/app-member-aside';
-import XtxCancelWindowVue from '@/components/library/xtx-cancel-window';
-import { removeOrder } from '@/api/member';
 export default {
 	name: 'Member',
-	data() {
-		return {
-			isShowWindow: false,
-			id: '', // 订单id
-		};
-	},
-	components: { AppMemberAside, XtxCancelWindowVue },
-	mounted() {
-		this.$bus.$on('cancelOrder', id => {
-			this.isShowWindow = true;
-			this.id = id;
-		});
-		this.$bus.$on('send', cause => {
-			this.isShowWindow = false;
-			console.log(this.id, cause);
-			removeOrder(this.id, cause).then(resolv => {
-				console.log(resolv);
-			});
-		});
-	},
+	components: { AppMemberAside },
 };
 </script>
 

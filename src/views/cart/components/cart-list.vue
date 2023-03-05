@@ -5,8 +5,9 @@
 				<i
 					class="iconfont"
 					:class="item.selected ? 'icon-duoxuanxuanzhong green' : 'icon-duoxuanweixuanzhong'"
-					@click="changSelected({ selected: !item.selected, count: item.count, skuId: item.skuId })"
-				></i>
+					@click="
+						changSelected({ selected: !item.selected, count: item.count, skuId: item.skuId })
+					"></i>
 			</div>
 		</td>
 		<td>
@@ -49,7 +50,7 @@
 			</p>
 		</td>
 		<td class="tc">
-			<p><a href="javascript:;">移入收藏夹</a></p>
+			<p><a href="javascript:;" @click="collectGoods(item.id)">移入收藏夹</a></p>
 			<p><a class="green" href="javascript:;" @click="remove(item.skuId)">删除</a></p>
 			<p><a href="javascript:;">找相似</a></p>
 		</td>
@@ -57,6 +58,7 @@
 </template>
 
 <script>
+import { addCollect } from '@/api/member';
 export default {
 	name: 'CartList',
 	data() {
@@ -70,9 +72,11 @@ export default {
 		},
 	},
 	methods: {
+		// 选中|未选中
 		changSelected({ selected = undefined, count, skuId }) {
 			this.$store.dispatch('cart/changGoodsNum', { selected, count, skuId });
 		},
+		// 减少商品数量
 		subGoodsNum({ selected = undefined, count, skuId }) {
 			if (this.item.count === 1) return;
 			this.$store.dispatch('cart/changGoodsNum', { selected, count, skuId });
@@ -97,6 +101,23 @@ export default {
 						message: '已取消删除',
 					});
 				});
+		},
+		// 添加收藏
+		collectGoods(id) {
+			addCollect(id, 1).then(
+				resolv => {
+					this.$message({
+						type: 'success',
+						message: '收藏成功!',
+					});
+				},
+				reject => {
+					this.$message({
+						type: 'error',
+						message: '收藏失败，请稍后再试!',
+					});
+				}
+			);
 		},
 	},
 };

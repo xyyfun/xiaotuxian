@@ -34,6 +34,7 @@ export default {
 		};
 	},
 	computed: {
+		// 商品主要数据
 		goodsData() {
 			let obj = {
 				desc: this.result.desc,
@@ -42,6 +43,7 @@ export default {
 				price: this.result.price,
 				specs: this.result.specs,
 				mainPictures: this.result.mainPictures,
+				id: this.result.id,
 			};
 			return obj;
 		},
@@ -114,7 +116,11 @@ export default {
 		over() {
 			this.loadImgNum++;
 			if (this.waitImgNum) {
-				if (this.waitImgNum === this.loadImgNum) this.elementOver = true;
+				if (this.waitImgNum === this.loadImgNum) {
+					this.elementOver = true; // 图片加载完毕|显示商品
+					// 将面包屑数据打包发送给组件
+					this.$bus.$emit('bread', this.result.categories, this.result.name, this.result.id);
+				}
 			}
 		},
 		// 修改商品选中状态

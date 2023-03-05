@@ -1,6 +1,6 @@
 <template>
 	<div class="xtx-dialog">
-		<div class="new-box">
+		<div class="new-box" :style="{ width }">
 			<h4 class="title">{{ title }}</h4>
 			<div class="body">
 				<slot name="body"></slot>
@@ -15,7 +15,7 @@
 <script>
 export default {
 	name: 'XtxDialog',
-	props: ['title'],
+	props: ['title', 'width'],
 };
 </script>
 
@@ -27,8 +27,7 @@ export default {
 	left: 0;
 	top: 0;
 	background: rgba(0, 0, 0, 0.4);
-	z-index: 9999;
-	// opacity: 0;
+	z-index: 999;
 	> .new-box {
 		width: 600px;
 		background: #fff;
@@ -48,10 +47,27 @@ export default {
 			border-bottom: 1px solid #f5f5f5;
 		}
 		> .body {
-			padding: 20px 75px;
+			padding: 20px 40px;
 			overflow-y: auto;
 			max-height: 540px;
-			overflow: visible;
+			overflow: auto;
+			&::-webkit-scrollbar {
+				/*滚动条整体样式*/
+				width: 10px; /*高宽分别对应横竖滚动条的尺寸*/
+				height: 1px;
+			}
+			&::-webkit-scrollbar-thumb {
+				/*滚动条里面小方块*/
+				border-radius: 10px;
+				// box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+				background: #b5b5b5;
+			}
+			&::-webkit-scrollbar-track {
+				/*滚动条里面轨道*/
+				border-radius: 10px;
+				background: #f5f5f5;
+			}
+			// 地址
 			.form-item {
 				display: flex;
 				line-height: 50px;
@@ -90,7 +106,7 @@ export default {
 						.ph {
 							color: #ccc;
 						}
-						.selected {
+						.cityAddress {
 							color: #333;
 						}
 						.iconfont {
@@ -100,17 +116,69 @@ export default {
 					}
 				}
 			}
+			// 提交订单切换地址
+			.item {
+				padding: 10px 20px;
+				border: 1px solid #e4e4e4;
+				margin-bottom: 20px;
+				position: relative;
+			}
+			.selected {
+				background-color: #e3f9f4;
+				border-color: #27ba9b;
+			}
+			// 取消订单
+			.cancel-info {
+				p {
+					font-size: 16px;
+					line-height: 35px;
+					.tip {
+						color: #999;
+					}
+				}
+				.btn {
+					padding-top: 21px;
+					display: flex;
+					flex-wrap: wrap;
+					a {
+						width: 256px;
+						height: 45px;
+						line-height: 45px;
+						text-align: center;
+						background-color: #fff;
+						border: 1px solid #e4e4e4;
+						margin-right: 20px;
+						margin-bottom: 20px;
+						color: #666;
+						&:nth-child(2n) {
+							margin-right: 0;
+						}
+					}
+					.active,
+					a:hover {
+						background-color: #e3f9f4;
+						border-color: #27ba9b;
+					}
+				}
+			}
+			.default {
+				flex: 1;
+				dl {
+					line-height: 30px;
+					display: flex;
+					dt {
+						width: 80px;
+						color: #999;
+					}
+					dd {
+						flex: 1;
+					}
+				}
+			}
 		}
 		> .footer {
 			padding: 10px 0 30px;
 			text-align: center;
-			.xtx-common-btn[type='primary'] {
-				background: #27ba9b;
-			}
-			.xtx-common-btn[type='info'] {
-				background: #ccc;
-				margin-right: 10px;
-			}
 			.xtx-common-btn {
 				width: 180px;
 				height: 50px;
@@ -120,6 +188,15 @@ export default {
 				text-align: center;
 				border-radius: 4px;
 				display: inline-block;
+				border-color: transparent;
+				cursor: pointer;
+			}
+			.xtx-common-btn[type='primary'] {
+				background: #27ba9b;
+			}
+			.xtx-common-btn[type='info'] {
+				background: #ccc;
+				margin-right: 10px;
 			}
 		}
 	}

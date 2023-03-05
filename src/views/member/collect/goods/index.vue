@@ -1,0 +1,154 @@
+<template>
+	<div class="member-collect-goods-page">
+		<div class="xtx-center-head">
+			<h4 class="title fl">收藏的商品</h4>
+		</div>
+		<div class="xtx-collect-goods" style="position: relative; min-height: 400px">
+			<ul>
+				<li v-for="item in result.items" :key="item.id">
+					<router-link :to="`/goods/${item.id}`" class=""
+						><img :src="item.picture" alt=""
+					/></router-link>
+					<p class="name ellipsis">{{ item.name }}</p>
+					<p class="desc ellipsis">多目采安</p>
+					<p class="price">¥{{ item.price }}</p>
+					<div class="btn">找相似</div>
+					<i class="iconfont icon-close" @click="cancel(item.id)"></i>
+				</li>
+			</ul>
+		</div>
+	</div>
+</template>
+
+<script>
+import { getMyCollection, cancelCollect } from '@/api/member';
+export default {
+	name: 'CollectGoods',
+	data() {
+		return {
+			result: {},
+		};
+	},
+	methods: {
+		// 取消收藏
+		cancel(id) {
+			this.$confirm('确定取消收藏该商品吗？', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning',
+			})
+				.then(() => {
+					cancelCollect(id, 1).then(resolv => {
+						this.getCollect();
+						this.$message({
+							type: 'success',
+							message: '取消收藏成功!',
+						});
+					});
+				})
+				.catch(() => {
+					this.$message({
+						type: 'info',
+						message: '已取消',
+					});
+				});
+		},
+		// 请求收藏的商品
+		getCollect() {
+			getMyCollection(1, 10, 1).then(data => {
+				this.result = data.data.result;
+			});
+		},
+	},
+	created() {
+		this.getCollect();
+	},
+};
+</script>
+
+<style lang="less" scoped>
+.member-collect-goods-page {
+	flex: 1;
+	background: #fff;
+	padding-bottom: 25px;
+	min-height: 100%;
+	.xtx-center-head {
+		line-height: 70px;
+		margin: 0 25px;
+		height: 70px;
+		border-bottom: 1px solid #f5f5f5;
+		.title {
+			font-size: 16px;
+			font-weight: 400;
+		}
+	}
+	.xtx-collect-goods {
+		position: relative;
+		min-height: 400px;
+		padding: 20px 25px;
+		ul {
+			display: flex;
+			flex-wrap: wrap;
+			li {
+				width: 221px;
+				height: 336px;
+				text-align: center;
+				padding: 20px 30px;
+				position: relative;
+				margin-right: 20px;
+				margin-bottom: 20px;
+				transition: all 0.5s;
+				img {
+					width: 150px;
+					height: 150px;
+				}
+				p {
+					padding-top: 10px;
+				}
+				.btn {
+					width: 100px;
+					height: 32px;
+					border: 1px solid #e4e4e4;
+					line-height: 30px;
+					border-radius: 2px;
+					margin: 20px auto;
+					background: #f5f5f5;
+				}
+				i {
+					position: absolute;
+					right: 0;
+					top: 0;
+					width: 20px;
+					height: 20px;
+					background: #e4e4e4;
+					color: #fff;
+					line-height: 18px;
+					opacity: 0;
+					cursor: pointer;
+				}
+				.name {
+					font-size: 16px;
+				}
+				.desc {
+					color: #999;
+				}
+				.price {
+					color: #cf4444;
+					font-size: 18px;
+				}
+				&:hover {
+					transform: translate3d(0, -3px, 0);
+					box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+				}
+				&:hover i {
+					opacity: 1;
+					transition: all 0.5s;
+				}
+				&:nth-child(4n) {
+					margin-right: 0;
+				}
+			}
+		}
+	}
+}
+</style>

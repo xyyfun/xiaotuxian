@@ -10,9 +10,9 @@
 			<a href="javascript:;"
 				><i class="iconfont icon-huiyuan"></i>
 				<p>会员中心</p></a
-			><a href="javascript:;"
+			><router-link to="/member/safe"
 				><i class="iconfont icon-shezhi"></i>
-				<p>安全设置</p></a
+				<p>安全设置</p></router-link
 			><router-link to="/member/address"
 				><i class="iconfont icon-daohangdizhi"></i>
 				<p>地址管理</p></router-link

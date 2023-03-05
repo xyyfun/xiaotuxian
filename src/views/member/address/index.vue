@@ -32,7 +32,7 @@
 							<span class="label">地区：</span>
 							<div class="xtx-city">
 								<div class="curr-wrapper" @click="isShowCity = !isShowCity">
-									<span class="selected" v-if="cityAddress">{{ cityAddress }}</span>
+									<span class="cityAddress" v-if="cityAddress">{{ cityAddress }}</span>
 									<span class="ph" v-else>请选择所在地</span
 									><i class="iconfont icon-angle-down"></i>
 								</div>

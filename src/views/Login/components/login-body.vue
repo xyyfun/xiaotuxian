@@ -55,13 +55,13 @@
 
 <script>
 import { login } from '@/api/login';
-import { setUserInfo } from '@/utils/userInfo';
+import { setUserInfo, setToken } from '@/utils/userInfo';
 export default {
 	name: 'LoginBody',
 	data() {
 		return {
-			account: '',
-			password: '',
+			account: 'xiaotuxian001',
+			password: '123456',
 			ico: 'icon-duoxuanweixuanzhong',
 			validate: {
 				account: false,
@@ -98,6 +98,8 @@ export default {
 						if (data.data.code === '1') {
 							// 持久化用户信息
 							setUserInfo(JSON.stringify(data.data.result));
+							// 持久化token
+							setToken(data.data.result.token);
 							// 将token存储至vuex
 							this.$store.commit('user/setToken', data.data.result.token);
 							// 将用户信息存储vux

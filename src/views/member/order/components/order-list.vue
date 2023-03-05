@@ -3,10 +3,17 @@
 		<div class="order-item" v-for="item in result.items" :key="item.id">
 			<div class="head">
 				<span>下单时间：{{ item.createTime }}</span
-				><span>订单编号：{{ item.id }}</span
-				><span class="down-time"
-					><i class="iconfont icon-down-time"></i><b>付款截止：18分52秒</b></span
+				><span>订单编号：{{ item.id }}</span>
+				<a
+					href="javascript:;"
+					@click="$emit('orderIds', item.id)"
+					class="del"
+					v-if="item.orderState === 6"
+					>删除</a
 				>
+				<span class="down-time" v-if="item.orderState === 1">
+					<b>付款截止：{{ item.payLatestTime }}</b>
+				</span>
 			</div>
 			<div class="body">
 				<div class="column goods">
@@ -39,7 +46,9 @@
 						立即付款
 					</button>
 					<p><a href="javascript:;">查看详情</a></p>
-					<p v-if="item.orderState !== 6"><a href="javascript:;">取消订单</a></p>
+					<p v-if="item.orderState === 1">
+						<a href="javascript:;" @click="$emit('receiveOrderId', item.id)">取消订单</a>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -88,6 +97,14 @@ export default {
 			overflow: hidden;
 			span {
 				margin-right: 20px;
+			}
+			.down-time {
+				float: right;
+			}
+			.del {
+				margin-right: 0;
+				float: right;
+				color: #999;
 			}
 		}
 		.body {

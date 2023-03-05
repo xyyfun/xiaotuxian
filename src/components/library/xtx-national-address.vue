@@ -46,17 +46,17 @@ export default {
 			if (level === 0) {
 				// 省
 				this.cityData = cityCode; // 重绘
-				this.cityAddress += city; // 拼接地址
+				this.cityAddress += city + ' '; // 拼接地址
 				this.provinceCode = code; // 省
 			} else if (level === 1) {
 				// 市
 				this.cityData = cityCode; // 重绘
-				this.cityAddress += city; // 拼接地址
+				this.cityAddress += city + ' '; // 拼接地址
 				this.cityCode = code; // 市
 			} else if (level === 2) {
 				// 县
 				this.cityData = cityCode; // 重绘
-				this.cityAddress += city; // 拼接地址
+				this.cityAddress += city + ' '; // 拼接地址
 				this.countyCode = code; // 县
 				// 通知组件接收数据
 				this.$bus.$emit(
@@ -77,7 +77,7 @@ export default {
 
 <style lang="less" scoped>
 .city-wrapper {
-	z-index: 9;
+	z-index: 200;
 	position: absolute;
 	left: 0;
 	bottom: 1px;

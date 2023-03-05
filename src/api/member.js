@@ -1,32 +1,18 @@
 import request from '@/utils/request';
 
 /**
- * @Date         : 2023-03-01 12:29:48
- * @description  : 获取我的订单数据列表
- * @param         {*} page:当前页
- * @param         {*} pageSize:一页多少数量
+ * @Date         : 2023-03-05 21:08:27
+ * @description  : 添加收藏
+ * @param         {*} collectObjectIds: 集合
+ * @param         {*} collectType:收藏类型，1为商品，2为专题，3为品牌
  * @return        {*}
  */
-export const getOrderList = (page = 1, pageSize = 5) => {
+export const addCollect = (collectObjectIds, collectType) => {
 	return request({
-		url: `/member/order?page=${page}&pageSize=${pageSize}`,
-		method: 'get',
-	});
-};
-
-/**
- * @Date         : 2023-03-02 11:04:56
- * @description  : 取消订单
- * @param         {*} id:订单id
- * @param         {*} cancelReason:取消理由
- * @return        {*}
- */
-export const removeOrder = (id, cancelReason) => {
-	return request({
-		url: `/member/order/${id}/cancel`,
-		method: 'put',
+		url: '/member/collect',
+		method: 'post',
 		header: { 'Content-Type': 'application/json' },
-		data: { cancelReason },
+		data: { collectObjectIds: [collectObjectIds], collectType },
 	});
 };
 
@@ -47,11 +33,27 @@ export const getMyCollection = (page = 1, pageSize = 4, collectType = 1) => {
 };
 
 /**
+ * @Date         : 2023-03-05 21:00:58
+ * @description  : 取消收藏
+ * @param         {*} ids:集合
+ * @param         {*} type:取消收藏类型，1为商品，2为专题，3为品牌
+ * @return        {*}
+ */
+export const cancelCollect = (ids, type) => {
+	return request({
+		url: '/member/collect/batch',
+		method: 'delete',
+		header: { 'Content-Type': 'application/json' },
+		data: { ids: [ids], type },
+	});
+};
+
+/**
  * @Date         : 2023-03-02 09:16:25
  * @description  : 获取足迹数据
  * @param         {*} data:地址信息
  * @param         {*} page:当前页
- * @param         {*} pageSize:一页机几条数据
+ * @param         {*} pageSize:一页几条数据
  * @return        {*}
  */
 export const getMyFootprint = (data, page = 1, pageSize = 4) => {
@@ -107,7 +109,7 @@ export const removeUserAddress = id => {
 
 /**
  * @Date         : 2023-03-01 19:33:19
- * @description  : 编辑更新地址
+ * @description  : 编辑|更新地址
  * @param         {*} data:
  * @param         {*} id:
  * @return        {*}
@@ -117,5 +119,51 @@ export const updateUserAddress = (data, id) => {
 		url: `/member/address/${id}`,
 		method: 'put',
 		data,
+	});
+};
+
+/**
+ * @Date         : 2023-03-03 11:17:17
+ * @description  : 获取个人信息
+ * @param         {*} data:
+ * @return        {*}
+ */
+export const getMyInfo = data => {
+	return request({
+		url: `/member/profile`,
+		method: 'get',
+		header: { 'Content-Type': 'application/json' },
+		data,
+	});
+};
+
+/**
+ * @Date         : 2023-03-03 14:32:37
+ * @description  : 修改个人数据
+ * @param         {*} data:
+ * @return        {*}
+ */
+export const setMyInfo = data => {
+	return request({
+		url: `/member/profile`,
+		method: 'put',
+		header: { 'Content-Type': 'application/json' },
+		data,
+	});
+};
+
+/**
+ * @Date         : 2023-03-04 21:33:14
+ * @description  : 更新|修改|上传头像
+ * @param         {*} file:图片数据
+ * @return        {*}
+ */
+export const updatePicture = file => {
+	const form = new FormData();
+	form.append('file', file);
+	return request({
+		url: '/member/profile/avatar',
+		method: 'post',
+		data: form,
 	});
 };

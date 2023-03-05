@@ -16,7 +16,7 @@
 		<div class="total">
 			共 {{ allGoodsNum }} 件商品，已选择 {{ allSelectedNum }} 件，商品合计：
 			<span class="red">¥{{ allSelectedTotalPrice }}</span
-			><button class="xtx-button ellipsis middle primary">下单结算</button>
+			><button class="xtx-button ellipsis middle primary" @click="placeOrder">下单结算</button>
 		</div>
 	</div>
 </template>
@@ -53,6 +53,9 @@ export default {
 						message: '已取消删除',
 					});
 				});
+		},
+		placeOrder() {
+			this.$router.push('/checkout');
 		},
 	},
 };

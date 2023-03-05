@@ -5,7 +5,7 @@
 			<div class="links">
 				<RouterLink exact-active-class="active" to="/member">个人中心</RouterLink>
 				<a href="javascript:;">消息通知</a>
-				<a href="javascript:;">个人信息</a>
+				<router-link exact-active-class="active" to="/member/info">个人信息</router-link>
 				<router-link exact-active-class="active" to="/member/safe">安全设置</router-link>
 				<router-link exact-active-class="active" to="/member/address">地址管理</router-link>
 				<a href="javascript:;">我的积分</a>
@@ -23,7 +23,7 @@
 			</div>
 			<h4>我的收藏</h4>
 			<div class="links">
-				<a href="javascript:;">收藏的商品</a>
+				<router-link to="/member/collect/goods">收藏的商品</router-link>
 				<a href="javascript:;">收藏的专题</a>
 				<a href="javascript:;">关注的品牌</a>
 			</div>

@@ -92,11 +92,73 @@ const router = new VueRouter({
 						isShowFooter: true,
 					},
 				},
+				{
+					path: 'info',
+					component: () => import('@/views/member/info'),
+					meta: {
+						isShowNav: true,
+						isShowHeader: true,
+						isShowHeaderSticky: true,
+						isShowFooter: true,
+					},
+				},
+				{
+					path: 'foot',
+					component: () => import('@/views/member/foot'),
+					meta: {
+						isShowNav: true,
+						isShowHeader: true,
+						isShowHeaderSticky: true,
+						isShowFooter: true,
+					},
+				},
+				{
+					path: 'collect',
+					component: () => import('@/views/member/collect'),
+					meta: {
+						isShowNav: true,
+						isShowHeader: true,
+						isShowHeaderSticky: true,
+						isShowFooter: true,
+					},
+					children: [
+						{
+							path: 'goods',
+							component: () => import('@/views/member/collect/goods'),
+							meta: {
+								isShowNav: true,
+								isShowHeader: true,
+								isShowHeaderSticky: true,
+								isShowFooter: true,
+							},
+						},
+					],
+				},
 			],
 		},
 		{
 			path: '/cart',
 			component: () => import('@/views/cart'),
+			meta: {
+				isShowNav: true,
+				isShowHeader: true,
+				isShowHeaderSticky: true,
+				isShowFooter: true,
+			},
+		},
+		{
+			path: '/checkout',
+			component: () => import('@/views/checkout'),
+			meta: {
+				isShowNav: true,
+				isShowHeader: true,
+				isShowHeaderSticky: true,
+				isShowFooter: true,
+			},
+		},
+		{
+			path: '/pay',
+			component: () => import('@/views/pay'),
 			meta: {
 				isShowNav: true,
 				isShowHeader: true,

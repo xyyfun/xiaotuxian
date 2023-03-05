@@ -11,16 +11,14 @@
 				<!-- 大图 -->
 				<div
 					class="large"
-					:style="[{ backgroundImage: `url(${imageUrl || error})` }, bigPosition]"
-				></div>
+					:style="[{ backgroundImage: `url(${imageUrl || error})` }, bigPosition]"></div>
 				<!-- 右侧图片 -->
 				<ul class="small">
 					<li
 						@click="changImg(mainPictures)"
 						v-for="(mainPictures, index) in result.mainPictures"
 						:key="index"
-						:class="{ active: mainPictures === imageUrl }"
-					>
+						:class="{ active: mainPictures === imageUrl }">
 						<img :src="mainPictures || error" alt="" v-load-img="loadingImg" />
 					</li>
 				</ul>
@@ -39,7 +37,7 @@
 				<li>
 					<p>收藏人气</p>
 					<p>600+</p>
-					<p><i class="iconfont icon-shoucang"></i>收藏商品</p>
+					<p @click="collectGoods"><i class="iconfont icon-shoucang"></i>收藏商品</p>
 				</li>
 				<li>
 					<p>品牌信息</p>
@@ -92,8 +90,7 @@
 								:title="value.name"
 								v-if="value.picture"
 								v-load-img="loadingImg"
-								@click="clickSpecs(item, value)"
-							/>
+								@click="clickSpecs(item, value)" />
 							<span @click="clickSpecs(item, value)" :class="{ selected: value.selected }" v-else>{{
 								value.name
 							}}</span>
@@ -116,6 +113,7 @@
 
 <script>
 import { addCart } from '@/api/cart';
+import { addCollect } from '@/api/member';
 export default {
 	name: 'GoodsInfo',
 	data() {
@@ -137,6 +135,7 @@ export default {
 		},
 	},
 	methods: {
+		// 数量选择|最低1
 		goodsNumSub() {
 			if (this.goodsNum <= 1) return;
 			this.goodsNum--;
@@ -156,8 +155,9 @@ export default {
 			this.bigPosition.backgroundPositionX = -left * 2 + 'px';
 			this.bigPosition.backgroundPositionY = -top * 2 + 'px';
 		},
+		// 加入购物车
 		addCartGoods() {
-			addCart(300208706, this.goodsNum).then(data => {
+			addCart(300254017, this.goodsNum).then(data => {
 				if (data.data.code === '1') {
 					this.$message({
 						message: '加入购物车成功！',
@@ -175,6 +175,23 @@ export default {
 		},
 		loadingImg() {
 			this.$emit('load');
+		},
+		// 添加收藏
+		collectGoods() {
+			addCollect(this.result.id, 1).then(
+				resolv => {
+					this.$message({
+						type: 'success',
+						message: '收藏成功!',
+					});
+				},
+				reject => {
+					this.$message({
+						type: 'error',
+						message: '收藏失败，请稍后再试!',
+					});
+				}
+			);
 		},
 	},
 	directives: {
@@ -288,6 +305,7 @@ export default {
 				p:last-child {
 					color: #666;
 					margin-top: 10px;
+					cursor: pointer;
 				}
 				p:last-child i {
 					color: #27ba9b;
