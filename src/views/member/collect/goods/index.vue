@@ -7,7 +7,7 @@
 			<ul>
 				<li v-for="(item, index) in result.items" :key="item.id">
 					<router-link :to="`/goods/${item.id}`" class=""
-						><img :src="item.picture" alt=""
+						><img v-lazy="item.picture" alt=""
 					/></router-link>
 					<p class="name ellipsis">{{ item.name }}</p>
 					<p class="desc ellipsis">多目采安</p>

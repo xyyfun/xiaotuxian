@@ -9,7 +9,7 @@ export default {
 		Vue.use(VueLazyload, {
 			preLoad: 1.3,
 			error: require('../assets/images/200.png'),
-			loading: require('../assets/images/load.gif'),
+			loading: require('../assets/images/loading.png'),
 			attempt: 1,
 		});
 	},

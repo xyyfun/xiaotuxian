@@ -20,7 +20,7 @@
 					<ul>
 						<li v-for="goods in item.skus" :key="goods.id">
 							<router-link :to="`/goods/${goods.spuId}`" class="image"
-								><img :src="goods.image" alt=""
+								><img v-lazy="goods.image" alt=""
 							/></router-link>
 							<div class="info">
 								<p class="name ellipsis-2">{{ goods.name }}</p>
@@ -42,12 +42,15 @@
 					<p>在线支付</p>
 				</div>
 				<div class="column action">
-					<button class="xtx-button ellipsis small primary" v-if="item.orderState === 1">
+					<button
+						class="xtx-button ellipsis small primary"
+						v-if="item.orderState === 1"
+						@click="nowPay(item.id)">
 						立即付款
 					</button>
 					<p><a href="javascript:;" @click="viewDetail(item.id)">查看详情</a></p>
 					<p v-if="item.orderState === 1">
-						<a href="javascript:;" @click="$emit('receiveOrderId', item.id)">取消订单</a>
+						<a href="javascript:;" @click="$bus.$emit('receiveOrderId', item.id)">取消订单</a>
 					</p>
 				</div>
 			</div>
@@ -77,12 +80,14 @@ export default {
 		},
 	},
 	methods: {
+		// 查看详细
 		viewDetail(id) {
 			this.$router.push(`/member/order/${id}`);
 		},
-	},
-	beforeDestroy() {
-		this.$off(['receiveOrderId', 'orderIds']);
+		// 立即付款
+		nowPay(id) {
+			this.$router.push(`/pay?id=${id}`);
+		},
 	},
 };
 </script>

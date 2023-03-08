@@ -8,9 +8,14 @@
 			<p>订单编号：{{ orderId }}</p>
 			<p>下单时间：{{ createTime }}</p>
 		</div>
-		<div class="btn">
+		<div class="btn" v-if="orderState !== 0 && orderState !== 6">
 			<button class="xtx-button ellipsis small primary">再次购买</button>
-			<button class="xtx-button ellipsis small gray">取消订单</button>
+			<button
+				class="xtx-button ellipsis small gray"
+				v-if="orderState !== 2"
+				@click="$bus.$emit('receiveOrderId', orderId)">
+				取消订单
+			</button>
 		</div>
 	</div>
 </template>
@@ -62,8 +67,8 @@ export default {
 			} else if (num === 6) {
 				this.stateIco = 'icon-yiquxiao1';
 				return '已取消';
-			} else if (num === 0) {
-				return '请稍等';
+			} else {
+				return '加载中...';
 			}
 		},
 	},

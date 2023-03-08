@@ -131,7 +131,7 @@ export default {
 			},
 			error: require('../../../assets/images/200.png'),
 			pathMap: null, // 字典
-			spec: '',
+			spec: '', // 规格
 		};
 	},
 	props: ['result'],
@@ -228,12 +228,13 @@ export default {
 				if (e) i++;
 			});
 			if (this.result.specs.length === i) {
-				const sku = this.pathMap[this.spec];
+				const sku = this.pathMap[this.spec]; // skuId
 				addCart(sku[0], this.goodsNum).then(data => {
 					this.$message({
 						message: '加入购物车成功！',
 						type: 'success',
 					});
+					// 更新购物车
 					this.$store.dispatch('cart/getCartDataList');
 				});
 			} else {

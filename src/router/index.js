@@ -75,6 +75,7 @@ const router = new VueRouter({
 						{
 							path: ':id',
 							component: () => import('@/views/member/order/detail'),
+							name: 'orderDetail',
 							meta: {
 								isShowNav: true,
 								isShowHeader: true,

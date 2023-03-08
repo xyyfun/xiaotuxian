@@ -5,7 +5,7 @@
 				<ul>
 					<li v-for="item in result.items" :key="item.id">
 						<router-link :to="`/goods/${item.spu.id}`" class=""
-							><img :src="item.spu.picture" alt=""
+							><img v-lazy="item.spu.picture" alt=""
 						/></router-link>
 						<p class="name ellipsis">{{ item.spu.name }}</p>
 						<p class="desc ellipsis">{{ item.spu.desc }}</p>

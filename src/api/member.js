@@ -182,3 +182,88 @@ export const updatePicture = file => {
 		data: form,
 	});
 };
+
+/**
+ * @Date         : 2023-03-08 18:38:25
+ * @description  : 获取兴趣分类
+ * @return        {*}
+ */
+export const getMyInterest = () => {
+	return request({
+		url: '/member/profile/interest',
+		method: 'get',
+	});
+};
+
+/**
+ * @Date         : 2023-03-08 18:54:35
+ * @description  : 修改我的兴趣分类
+ * @param         {*} data:
+ * @return        {*}
+ */
+export const changMyInterest = data => {
+	return request({
+		url: '/member/profile/interest',
+		method: 'put',
+		header: { 'Content-Type': 'application/json' },
+		data,
+	});
+};
+
+/**
+ * @Date         : 2023-03-08 19:51:20
+ * @description  : 获取我的尺码
+ * @return        {*}
+ */
+export const getMySize = () => {
+	return request({
+		url: '/member/profile/property',
+		method: 'get',
+		header: { 'Content-Type': 'application/json' },
+	});
+};
+
+/**
+ * @Date         : 2023-03-08 19:53:40
+ * @description  : 添加我的尺码
+ * @param         {*} data:
+ * @return        {*}
+ */
+export const addMySize = data => {
+	return request({
+		url: '/member/profile/property',
+		method: 'post',
+		header: { 'Content-Type': 'application/json' },
+		data,
+	});
+};
+
+/**
+ * @Date         : 2023-03-08 20:51:26
+ * @description  : 删除我的尺码表
+ * @param         {*} id:
+ * @return        {*}
+ */
+export const removeMySize = id => {
+	return request({
+		url: `/member/profile/property/${id}`,
+		method: 'delete',
+		header: { 'Content-Type': 'application/json' },
+	});
+};
+
+/**
+ * @Date         : 2023-03-08 21:01:30
+ * @description  : 修改尺码表
+ * @param         {*} id:
+ * @param         {*} data:
+ * @return        {*}
+ */
+export const editSize = (id, data) => {
+	return request({
+		url: `/member/profile/property/${id}`,
+		method: 'put',
+		header: { 'Content-Type': 'application/json' },
+		data,
+	});
+};

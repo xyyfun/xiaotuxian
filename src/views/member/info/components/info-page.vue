@@ -25,16 +25,14 @@
 						name="item-sex"
 						type="radio"
 						id="item-sex-01"
-						checked="checked"
-					/><span>男</span></label
+						checked="checked" /><span>男</span></label
 				><label for="item-sex-02"
 					><input
 						value="女"
 						v-model="result.gender"
 						name="item-sex"
 						type="radio"
-						id="item-sex-02"
-					/>
+						id="item-sex-02" />
 					<span>女</span></label
 				><label for="item-sex-03"
 					><input
@@ -42,8 +40,7 @@
 						v-model="result.gender"
 						name="item-sex"
 						type="radio"
-						id="item-sex-03"
-					/>
+						id="item-sex-03" />
 					<span>未知</span></label
 				>
 			</div>
@@ -57,8 +54,7 @@
 							value-format="yyyy-MM-dd"
 							v-model="result.birthday"
 							type="date"
-							placeholder="选择日期"
-						>
+							placeholder="选择日期">
 						</el-date-picker>
 					</div>
 				</div>
@@ -88,16 +84,14 @@
 						<div v-else class="ph">请选择</div>
 						<span
 							class="iconfont icon-moreunfold"
-							@click="isShowOccupation = !isShowOccupation"
-						></span>
+							@click="isShowOccupation = !isShowOccupation"></span>
 					</div>
 					<div class="list" v-if="isShowOccupation">
 						<div
 							class="item"
 							v-for="(item, index) in occupation"
 							:key="index"
-							@click="selection(item)"
-						>
+							@click="selection(item)">
 							{{ item }}
 						</div>
 					</div>

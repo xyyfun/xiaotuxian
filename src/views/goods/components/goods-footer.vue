@@ -24,8 +24,8 @@
 				</p>
 				<br />
 				<p class="tit">• 使用什么快递发货?</p>
-				<p>默认使用顺丰快递发货(个别商品使用其他快递）</p>
-				<p>配送范围覆盖全国大部分地区(港澳台地区除外）</p>
+				<p>默认使用顺丰快递发货（个别商品使用其他快递）</p>
+				<p>配送范围覆盖全国大部分地区（港澳台地区除外）</p>
 				<br />
 				<p class="tit">• 如何申请退货?</p>
 				<p>
@@ -63,8 +63,7 @@
 						:to="`/goods/${list.id}`"
 						v-for="(list, index) in weekHotList"
 						:key="index"
-						class="router-link-active router-link-exact-active goods-item"
-					>
+						class="router-link-active router-link-exact-active goods-item">
 						<img v-lazy="list.picture" alt="" />
 						<p class="name ellipsis">{{ list.name }}</p>
 						<p class="desc ellipsis">{{ list.desc }}</p>

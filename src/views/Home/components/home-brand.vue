@@ -17,7 +17,7 @@
 			<div class="brand-content">
 				<ul :class="{ move: isLeft }">
 					<li v-for="item in brandDataList" :key="item.id">
-						<a href="javascript:;"><img :src="item.picture" alt="" /></a>
+						<a href="javascript:;"><img v-lazy="item.picture" alt="" /></a>
 					</li>
 				</ul>
 			</div>
@@ -84,7 +84,7 @@ export default {
 					img {
 						width: 240px;
 						height: 305px;
-						vertical-align: middle;
+						object-fit: cover;
 					}
 				}
 			}

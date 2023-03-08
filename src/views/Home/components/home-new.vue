@@ -16,7 +16,7 @@
 				<ul>
 					<li v-for="item in result" :key="item.id">
 						<router-link :to="`/goods/${item.id}`">
-							<img :src="item.picture" alt="" />
+							<img v-lazy="item.picture" alt="" />
 							<p class="ellipsis">{{ item.desc }}</p>
 							<p>￥{{ item.price }}</p>
 						</router-link>
@@ -42,9 +42,7 @@ export default {
 	},
 	mounted() {
 		getNew().then(data => {
-			if (data.data.code === '1') {
-				this.result = data.data.result;
-			}
+			this.result = data.data.result;
 		});
 	},
 };
@@ -67,6 +65,7 @@ export default {
 				img {
 					width: 306px;
 					height: 306px;
+					object-fit: cover;
 				}
 				p {
 					font-size: 22px;
@@ -83,5 +82,20 @@ export default {
 			}
 		}
 	}
+}
+/* 进入的起点,离开的终点 */
+.new-enter,
+.new-leave-to {
+	opacity: 0;
+}
+/* 进入进行时,离开进行时 */
+.new-enter-active {
+	transition: all 0.5s;
+}
+
+/* 进入的终点,离开的起点 */
+.new-enter-to,
+.new-leave {
+	opacity: 1;
 }
 </style>

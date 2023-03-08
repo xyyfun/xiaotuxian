@@ -22,7 +22,7 @@
 				</HomeTitle>
 				<div class="product-content">
 					<a href="javascript:;" class="cover">
-						<img :src="item.picture" alt="" />
+						<img v-lazy="item.picture" alt="" />
 						<div class="lable">
 							<span>{{ item.name }}馆</span>
 							<span>{{ item.saleInfo }}</span>
@@ -32,7 +32,7 @@
 						<li v-for="goods in item.goods" :key="goods.id">
 							<div class="good-item">
 								<router-link :to="`/goods/${goods.id}`" class="image"
-									><img :src="goods.picture" alt=""
+									><img v-lazy="goods.picture" alt=""
 								/></router-link>
 								<p class="name">{{ goods.name }}</p>
 								<p class="desc ellipsis">{{ goods.desc }}</p>

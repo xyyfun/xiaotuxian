@@ -175,6 +175,129 @@ export default {
 					}
 				}
 			}
+			// 尺码尺寸
+			.xtx-center-size-new {
+				flex: 1;
+				display: flex;
+				align-items: center;
+				justify-content: space-around;
+				> .pic {
+					width: 320px;
+					height: 500px;
+				}
+				> .form {
+					width: 400px;
+					height: 500px;
+					display: flex;
+					flex-wrap: wrap;
+					input[type='text'] {
+						border: 1px solid #e4e4e4;
+						padding-left: 10px;
+					}
+					.label {
+						width: 100px;
+						text-align: right;
+						padding-right: 10px;
+						color: #999;
+					}
+					.form-item {
+						width: 100%;
+						display: flex;
+						line-height: 50px;
+						justify-content: space-between;
+						input[type='text'] {
+							width: 300px;
+							height: 50px;
+							border: 1px solid #e4e4e4;
+							padding-left: 10px;
+						}
+						.xtx-select {
+							width: 300px;
+							height: 50px;
+							position: relative;
+							display: inline-block;
+							.curr {
+								width: 100%;
+								height: 50px;
+								padding-left: 10px;
+								padding-right: 30px;
+								border: 1px solid #e4e4e4;
+								overflow: hidden;
+								.ph {
+									color: #ccc;
+								}
+							}
+							.list {
+								position: absolute;
+								left: 0;
+								top: 50px;
+								border: 1px solid #e4e4e4;
+								border-top: none;
+								width: 100%;
+								max-height: 200px;
+								overflow-y: auto;
+								background: #fff;
+								z-index: 9999;
+								.option {
+									line-height: 40px;
+									height: 40px;
+									width: 100%;
+									overflow: hidden;
+									padding-left: 10px;
+									cursor: pointer;
+									color: #666;
+								}
+							}
+						}
+						.xtx-checkbox {
+							color: #999;
+							cursor: pointer;
+							margin-right: 3px;
+							margin-bottom: 2px;
+							input {
+								display: none;
+							}
+							span {
+								vertical-align: middle;
+								padding-left: 5px;
+							}
+						}
+						.xtx-button {
+							line-height: 1;
+							white-space: nowrap;
+							cursor: pointer;
+							text-align: center;
+							box-sizing: border-box;
+							outline: none;
+							border-radius: 4px;
+							display: inline-block;
+							width: 180px;
+							height: 50px;
+							background-color: #27ba9b;
+							border: 1px solid #27ba9b;
+							color: #fff;
+							font-size: 16px;
+						}
+						.gray {
+							background-color: #ccc;
+							border: 1px solid #ccc;
+						}
+					}
+					.form-item2 {
+						width: 50%;
+						display: flex;
+						line-height: 32px;
+						input[type='text'] {
+							width: 100px;
+							height: 32px;
+						}
+					}
+					.start {
+						justify-content: start;
+						padding-left: 10px;
+					}
+				}
+			}
 		}
 		> .footer {
 			padding: 10px 0 30px;

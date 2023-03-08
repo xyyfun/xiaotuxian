@@ -15,7 +15,7 @@
 			<div class="special-content">
 				<div class="special-item" v-for="item in specialDataList" :key="item.id">
 					<a href="javascript:;">
-						<img :src="item.cover" alt="" />
+						<img v-lazy="item.cover" alt="" />
 						<div class="meta">
 							<p class="title">
 								<span class="top ellipsis">{{ item.title }}</span>

@@ -10,7 +10,7 @@
 				<ul>
 					<li v-for="item in hotDataList" :key="item.id">
 						<a href="javascript:;">
-							<img :src="item.picture" alt="" />
+							<img v-lazy="item.picture" alt="" />
 							<p class="ellipsis">{{ item.title }}</p>
 							<p>{{ item.alt }}</p>
 						</a>
@@ -36,9 +36,7 @@ export default {
 	},
 	mounted() {
 		getHot().then(data => {
-			if (data.data.code === '1') {
-				this.hotDataList = data.data.result;
-			}
+			this.hotDataList = data.data.result;
 		});
 	},
 };
@@ -60,6 +58,7 @@ export default {
 				img {
 					width: 306px;
 					height: 306px;
+					object-fit: cover;
 				}
 				p {
 					font-size: 22px;

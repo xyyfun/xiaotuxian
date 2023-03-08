@@ -1,5 +1,6 @@
 <template>
 	<div class="member-order">
+		<!-- 订单列表 -->
 		<template v-if="!this.$route.params.id">
 			<OrderHeader @handleOrder="handleOrder" :orderStateNum="orderState" />
 			<!-- 数据 -->
@@ -9,36 +10,13 @@
 						<div class="none">暂无数据</div>
 					</template>
 					<template v-else>
-						<OrderList :result="result" @receiveOrderId="receiveOrderId" @orderIds="orderIds" />
+						<OrderList :result="result" @orderIds="orderIds" />
 						<XtxPagination
 							:pageNo="pageNo"
 							:pageSize="pageSize"
 							:totalPages="result.pages"
 							:continues="5"
 							@changePage="changePage" />
-						<XtxDialog title="取消订单" width="620px" v-show="isCancel">
-							<template slot="body">
-								<div class="cancel-info">
-									<p>取消订单后，本单享有的优惠可能会一并取消，是否继续？</p>
-									<p class="tip">请选择取消订单的原因（必选）：</p>
-									<div class="btn">
-										<a
-											:class="orderInfo.cancelReason === item ? 'active' : ''"
-											@click="cancelReason(item)"
-											v-for="(item, index) in reasons"
-											:key="index"
-											href="javascript:;"
-											>{{ item }}</a
-										>
-									</div>
-								</div>
-							</template>
-							<template slot="footer">
-								<button class="xtx-common-btn" type="info" @click="isCancel = !isCancel">
-									取消</button
-								><button class="xtx-common-btn" type="primary" @click="confirmCancel">确认</button>
-							</template>
-						</XtxDialog>
 					</template>
 				</div>
 			</transition>
@@ -57,6 +35,28 @@
 				<Detail />
 			</transition>
 		</template>
+		<XtxDialog title="取消订单" width="620px" v-show="isCancel">
+			<template slot="body">
+				<div class="cancel-info">
+					<p>取消订单后，本单享有的优惠可能会一并取消，是否继续？</p>
+					<p class="tip">请选择取消订单的原因（必选）：</p>
+					<div class="btn">
+						<a
+							:class="orderInfo.cancelReason === item ? 'active' : ''"
+							@click="cancelReason(item)"
+							v-for="(item, index) in reasons"
+							:key="index"
+							href="javascript:;"
+							>{{ item }}</a
+						>
+					</div>
+				</div>
+			</template>
+			<template slot="footer">
+				<button class="xtx-common-btn" type="info" @click="isCancel = !isCancel">取消</button
+				><button class="xtx-common-btn" type="primary" @click="confirmCancel">确认</button>
+			</template>
+		</XtxDialog>
 	</div>
 </template>
 
@@ -135,6 +135,8 @@ export default {
 							message: '取消订单成功！',
 							type: 'success',
 						});
+						// 判断是否在查看详情 在查看详情内取消直接跳转至order页面
+						if (this.$route.name === 'orderDetail') this.$router.push('/member/order');
 						this.result.items.forEach((e, index) => {
 							if (e.id === this.orderInfo.id) {
 								this.result.items[index].orderState = 6;
@@ -186,6 +188,12 @@ export default {
 	},
 	created() {
 		this.getOrderDataList(this.pageNo, this.pageSize, this.orderState);
+	},
+	mounted() {
+		this.$bus.$on('receiveOrderId', this.receiveOrderId);
+	},
+	beforeDestroy() {
+		this.$bus.$off('receiveOrderId');
 	},
 };
 </script>
