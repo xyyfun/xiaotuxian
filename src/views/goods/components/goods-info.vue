@@ -85,15 +85,18 @@
 					<dd>
 						<template v-for="value in item.values" :key="">
 							<img
-								:class="{ selected: value.selected }"
+								:class="{ selected: value.selected, disabled: value.disabled }"
 								:src="value.picture || error"
 								:title="value.name"
 								v-if="value.picture"
 								v-load-img="loadingImg"
-								@click="clickSpecs(item, value)" />
-							<span @click="clickSpecs(item, value)" :class="{ selected: value.selected }" v-else>{{
-								value.name
-							}}</span>
+								@click="handlerSpecs(item, value)" />
+							<span
+								@click="handlerSpecs(item, value)"
+								:class="{ selected: value.selected, disabled: value.disabled }"
+								v-else
+								>{{ value.name }}</span
+							>
 						</template>
 					</dd>
 				</dl>
@@ -114,6 +117,7 @@
 <script>
 import { addCart } from '@/api/cart';
 import { addCollect } from '@/api/member';
+import getPowerSet from '@/utils/power-set';
 export default {
 	name: 'GoodsInfo',
 	data() {
@@ -126,6 +130,8 @@ export default {
 				backgroundPositionY: 0,
 			},
 			error: require('../../../assets/images/200.png'),
+			pathMap: null, // 字典
+			spec: '',
 		};
 	},
 	props: ['result'],
@@ -135,6 +141,66 @@ export default {
 		},
 	},
 	methods: {
+		// 修改商品选中状态
+		handlerSpecs(item, val) {
+			if (val.disabled) return; // 如果按钮被禁用直接return
+			if (val.selected) {
+				val.selected = false;
+			} else {
+				item.values.forEach(bv => {
+					bv.selected = false;
+				});
+				val.selected = true;
+			}
+			// 禁用库存为空的按钮
+			if (!this.pathMap) this.getPathMap(); // 字典为空时获取字典
+			// 根据字典判断库存 为空时禁用按钮
+			this.result.specs.forEach((spec, i) => {
+				const selectedArr = this.getSelectedArr(this.result.specs);
+				spec.values.forEach(val => {
+					// 已经选中的按钮不用判断
+					if (val.name === selectedArr[i]) return false;
+					// 未选中的替换对应的值
+					selectedArr[i] = val.name;
+					// 过滤无效值得到key
+					const key = selectedArr.filter(v => v).join('*');
+					// 设置禁用状态
+					val.disabled = !this.pathMap[key];
+				});
+			});
+		},
+		// 得到当前选中规格集合
+		getSelectedArr(specs) {
+			const selectedArr = [];
+			specs.forEach(spec => {
+				const selectedVal = spec.values.find(val => val.selected);
+				selectedArr.push(selectedVal ? selectedVal.name : undefined);
+			});
+			this.spec = selectedArr.join('*');
+			return selectedArr;
+		},
+		// pathMap字典
+		getPathMap() {
+			const pathMap = {};
+			this.result.skus.forEach(sku => {
+				// 判断是否有库存
+				if (sku.inventory) {
+					const specs = sku.specs.map(spec => spec.valueName); // 得到 规格+颜色（拼接）
+					const powerSet = getPowerSet(specs);
+					powerSet.forEach(set => {
+						const key = set.join('*');
+						if (pathMap[key]) {
+							// 已经有key往数组追加
+							pathMap[key].push(sku.id);
+						} else {
+							// 没有key设置一个数组
+							pathMap[key] = [sku.id];
+						}
+					});
+				}
+			});
+			this.pathMap = pathMap;
+		},
 		// 数量选择|最低1
 		goodsNumSub() {
 			if (this.goodsNum <= 1) return;
@@ -157,15 +223,25 @@ export default {
 		},
 		// 加入购物车
 		addCartGoods() {
-			addCart(300254017, this.goodsNum).then(data => {
-				if (data.data.code === '1') {
+			let i = 0;
+			this.spec.split('*').forEach(e => {
+				if (e) i++;
+			});
+			if (this.result.specs.length === i) {
+				const sku = this.pathMap[this.spec];
+				addCart(sku[0], this.goodsNum).then(data => {
 					this.$message({
 						message: '加入购物车成功！',
 						type: 'success',
 					});
 					this.$store.dispatch('cart/getCartDataList');
-				}
-			});
+				});
+			} else {
+				this.$message({
+					message: '请选择完整规格！',
+					type: 'warning',
+				});
+			}
 		},
 		changImg(url) {
 			this.imageUrl = url;
@@ -198,7 +274,7 @@ export default {
 		'load-img'(el, binding, VNode) {
 			el.onload = function () {
 				if (el.src) {
-					if (el.src.slice(0, 5) === 'https') {
+					if (el.src.slice(0, 4) === 'http') {
 						VNode.context.loadingImg();
 					}
 				}
@@ -206,7 +282,7 @@ export default {
 		},
 	},
 	beforeDestroy() {
-		this.$off(['changSpecs', 'load']);
+		this.$off(['load']);
 	},
 };
 </script>
@@ -440,6 +516,11 @@ export default {
 						border: 1px solid #e4e4e4;
 						margin-right: 10px;
 						cursor: pointer;
+					}
+					.disabled {
+						opacity: 0.6;
+						border-style: dashed;
+						cursor: not-allowed;
 					}
 					> .selected {
 						border-color: #27ba9b;

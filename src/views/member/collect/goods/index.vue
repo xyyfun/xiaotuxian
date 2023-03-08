@@ -5,7 +5,7 @@
 		</div>
 		<div class="xtx-collect-goods" style="position: relative; min-height: 400px">
 			<ul>
-				<li v-for="item in result.items" :key="item.id">
+				<li v-for="(item, index) in result.items" :key="item.id">
 					<router-link :to="`/goods/${item.id}`" class=""
 						><img :src="item.picture" alt=""
 					/></router-link>
@@ -13,25 +13,37 @@
 					<p class="desc ellipsis">多目采安</p>
 					<p class="price">¥{{ item.price }}</p>
 					<div class="btn">找相似</div>
-					<i class="iconfont icon-close" @click="cancel(item.id)"></i>
+					<i class="iconfont icon-close" @click="cancel(item.id, index)"></i>
 				</li>
 			</ul>
 		</div>
+		<!-- 分页器 -->
+		<XtxPagination
+			v-if="result.page"
+			:pageNo="pageNo"
+			:pageSize="pageSize"
+			:totalPages="result.pages"
+			:continues="5"
+			@changePage="changePage" />
 	</div>
 </template>
 
 <script>
 import { getMyCollection, cancelCollect } from '@/api/member';
+import XtxPagination from '@/components/library/xtx-pagination';
 export default {
 	name: 'CollectGoods',
 	data() {
 		return {
 			result: {},
+			pageNo: 1,
+			pageSize: 12,
 		};
 	},
+	components: { XtxPagination },
 	methods: {
 		// 取消收藏
-		cancel(id) {
+		cancel(id, index) {
 			this.$confirm('确定取消收藏该商品吗？', '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
@@ -39,11 +51,11 @@ export default {
 			})
 				.then(() => {
 					cancelCollect(id, 1).then(resolv => {
-						this.getCollect();
 						this.$message({
 							type: 'success',
 							message: '取消收藏成功!',
 						});
+						this.result.items.splice(index, 1);
 					});
 				})
 				.catch(() => {
@@ -55,9 +67,14 @@ export default {
 		},
 		// 请求收藏的商品
 		getCollect() {
-			getMyCollection(1, 10, 1).then(data => {
+			getMyCollection(this.pageNo, this.pageSize, 1).then(data => {
 				this.result = data.data.result;
 			});
+		},
+		// 换页
+		changePage(pageNo) {
+			this.pageNo = pageNo;
+			this.getCollect();
 		},
 	},
 	created() {

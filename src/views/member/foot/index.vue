@@ -19,5 +19,6 @@ export default {
 	flex: 1;
 	background: #fff;
 	padding-bottom: 25px;
+	min-height: 100%;
 }
 </style>

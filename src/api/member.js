@@ -66,6 +66,21 @@ export const getMyFootprint = (data, page = 1, pageSize = 4) => {
 };
 
 /**
+ * @Date         : 2023-03-06 18:58:25
+ * @description  : 删除足迹
+ * @param         {*} ids:需要删除足迹的id集合
+ * @return        {*}
+ */
+export const deleteFoot = ids => {
+	return request({
+		url: '/member/browseHistory/batch',
+		method: 'delete',
+		header: { 'Content-Type': 'application/json' },
+		data: { ids },
+	});
+};
+
+/**
  * @Date         : 2023-03-01 14:51:59
  * @description  : 添加用户地址
  * @param		   {Object} : 数据

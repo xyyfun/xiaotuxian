@@ -1,10 +1,14 @@
 <template>
 	<div class="xtx-tabs">
 		<nav>
-			<a class="active" href="javascript:;">全部订单</a><a class="" href="javascript:;">待付款</a
-			><a class="" href="javascript:;">待发货</a><a class="" href="javascript:;">待收货</a
-			><a class="" href="javascript:;">待评价</a><a class="" href="javascript:;">已完成</a
-			><a class="" href="javascript:;">已取消</a>
+			<a
+				v-for="(item, index) in orderState"
+				:key="index"
+				:class="{ active: orderStateNum === index }"
+				@click="$emit('handleOrder', index)"
+				href="javascript:;">
+				{{ item }}
+			</a>
 		</nav>
 	</div>
 </template>
@@ -12,6 +16,12 @@
 <script>
 export default {
 	name: 'OrderHeader',
+	data() {
+		return {
+			orderState: ['全部订单', '待付款', '待发货', '待收货', '待评价', '已完成', '已取消'],
+		};
+	},
+	props: ['orderStateNum'],
 };
 </script>
 

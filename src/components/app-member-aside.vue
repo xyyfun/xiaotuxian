@@ -9,7 +9,7 @@
 				<router-link exact-active-class="active" to="/member/safe">安全设置</router-link>
 				<router-link exact-active-class="active" to="/member/address">地址管理</router-link>
 				<a href="javascript:;">我的积分</a>
-				<a href="javascript:;">我的足迹</a>
+				<router-link to="/member/foot">我的足迹</router-link>
 				<a href="javascript:;">邀请有礼</a>
 				<a href="javascript:;">幸运抽奖</a>
 			</div>

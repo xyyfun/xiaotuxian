@@ -1,14 +1,17 @@
 <template>
 	<div class="xtx-goods-page">
-		<div class="container" v-show="elementOver">
-			<AppBread />
-			<GoodsInfo :result="goodsData" @load="over" @changSpecs="handlerSpecs" />
-			<XtxGuess title="同类推荐" :id="result.id" />
-			<GoodsFooter :details="details" :weekHotList="weekHotList" :dayHotList="dayHotList" />
-		</div>
+		<transition>
+			<div class="container" v-show="elementOver">
+				<AppBread />
+				<GoodsInfo :result="goodsData" @load="over" />
+				<XtxGuess title="同类推荐" :id="result.id" />
+				<GoodsFooter :details="details" :weekHotList="weekHotList" :dayHotList="dayHotList" />
+			</div>
+		</transition>
+
 		<div class="load" v-if="!elementOver">
 			<div class="loading">
-				<img src="../../assets/images/load.gif" alt="" />
+				<img src="../../assets/images/loading.gif" alt="" />
 			</div>
 		</div>
 	</div>
@@ -41,6 +44,7 @@ export default {
 				name: this.result.name,
 				oldPrice: this.result.oldPrice,
 				price: this.result.price,
+				skus: this.result.skus,
 				specs: this.result.specs,
 				mainPictures: this.result.mainPictures,
 				id: this.result.id,
@@ -64,6 +68,7 @@ export default {
 			},
 		},
 		result(newVal) {
+			// 计算多少张图片等待加载
 			if (newVal.specs) {
 				let i = 0;
 				this.result.specs.forEach(e => {
@@ -75,13 +80,6 @@ export default {
 					if (e) i++;
 				});
 				this.waitImgNum = i;
-				// 给商品属性添加 selected 属性
-				newVal.specs.forEach(element => {
-					element.values.forEach(e => {
-						// 响应式
-						this.$set(e, 'selected', false);
-					});
-				});
 			}
 		},
 	},
@@ -106,10 +104,15 @@ export default {
 		goods(id) {
 			// 商品数据
 			getGoodsDataList(id).then(data => {
-				if (data.data.code === '1') {
-					this.result = data.data.result;
-					this.details = data.data.result.details;
-				}
+				// 添加自定义属性|判断是否选中 selected(选中) disabled(未选中)
+				data.data.result.specs.forEach(element => {
+					element.values.forEach(e => {
+						e.selected = false;
+						e.disabled = false;
+					});
+				});
+				this.result = data.data.result;
+				this.details = data.data.result.details;
 			});
 		},
 		// 图片加载完成加载此函数 将 elementOver 改为 true
@@ -121,28 +124,6 @@ export default {
 					// 将面包屑数据打包发送给组件
 					this.$bus.$emit('bread', this.result.categories, this.result.name, this.result.id);
 				}
-			}
-		},
-		// 修改商品选中状态
-		handlerSpecs(item, val) {
-			this.getPathMap();
-			if (val.selected) {
-				val.selected = false;
-			} else {
-				item.values.forEach(bv => {
-					bv.selected = false;
-				});
-				val.selected = true;
-			}
-		},
-		getPathMap() {
-			if (this.result.id) {
-				this.result.skus.forEach(sku => {
-					if (sku.inventory) {
-						const a = sku.specs.map(spec => spec.valueName);
-						console.log(sku.specs);
-					}
-				});
 			}
 		},
 	},
@@ -166,5 +147,19 @@ export default {
 			}
 		}
 	}
+} /* 进入的起点,离开的终点 */
+.v-enter,
+.v-leave-to {
+	opacity: 0;
+}
+/* 进入进行时,离开进行时 */
+.v-enter-active {
+	transition: all 0.5s;
+}
+
+/* 进入的终点,离开的起点 */
+.v-enter-to,
+.v-leave {
+	opacity: 1;
 }
 </style>

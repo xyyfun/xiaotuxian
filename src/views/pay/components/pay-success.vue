@@ -12,8 +12,12 @@
 			支付金额：<span style="color: #cf4444">¥{{ payMoney }}</span>
 		</p>
 		<div class="btn">
-			<a href="javascript:;" type="primary" class="xtx-common-btn" style="margin-right: 20px"
-				>查看订单</a
+			<router-link
+				:to="`/member/order/${id}`"
+				type="primary"
+				class="xtx-common-btn"
+				style="margin-right: 20px"
+				>查看订单</router-link
 			>
 			<router-link to="/home" class="xtx-common-btn" type="info">进入首页</router-link>
 		</div>

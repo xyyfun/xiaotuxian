@@ -71,6 +71,18 @@ const router = new VueRouter({
 						isShowHeaderSticky: true,
 						isShowFooter: true,
 					},
+					children: [
+						{
+							path: ':id',
+							component: () => import('@/views/member/order/detail'),
+							meta: {
+								isShowNav: true,
+								isShowHeader: true,
+								isShowHeaderSticky: true,
+								isShowFooter: true,
+							},
+						},
+					],
 				},
 				{
 					path: 'address',

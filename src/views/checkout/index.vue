@@ -77,7 +77,6 @@ export default {
 			let { addressId, deliveryTimeType, payType, goods } = this;
 			subOrder(addressId, deliveryTimeType, payType, goods).then(
 				resolv => {
-					console.log(resolv);
 					this.$router.push(`/pay?id=${resolv.data.result.id}`);
 					this.$message({
 						message: '订单提交成功，请尽快支付！',

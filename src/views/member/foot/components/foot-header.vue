@@ -1,7 +1,7 @@
 <template>
 	<div class="xtx-center-head">
 		<h4 class="title fl">我的足迹</h4>
-		<a href="javascript:;" class="add">清除全部</a>
+		<a href="javascript:;" @click="$bus.$emit('removeAll')" class="add">清除当前页所有足迹</a>
 	</div>
 </template>
 

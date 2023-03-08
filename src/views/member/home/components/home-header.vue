@@ -1,14 +1,16 @@
 <template>
 	<div class="xtx_panel_header">
 		<h4>{{ title }}</h4>
-		<a href="javascript:;" class="more"> 查看全部 <i class="iconfont icon-right"></i></a>
+		<router-link :to="route" class="more">
+			查看全部 <i class="iconfont icon-right"></i
+		></router-link>
 	</div>
 </template>
 
 <script>
 export default {
 	name: 'HomeHeader',
-	props: ['title'],
+	props: ['title', 'route'],
 };
 </script>
 

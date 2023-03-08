@@ -45,7 +45,7 @@
 					<button class="xtx-button ellipsis small primary" v-if="item.orderState === 1">
 						立即付款
 					</button>
-					<p><a href="javascript:;">查看详情</a></p>
+					<p><a href="javascript:;" @click="viewDetail(item.id)">查看详情</a></p>
 					<p v-if="item.orderState === 1">
 						<a href="javascript:;" @click="$emit('receiveOrderId', item.id)">取消订单</a>
 					</p>
@@ -59,7 +59,6 @@
 export default {
 	name: 'OrderList',
 	props: ['result'],
-	computed: {},
 	filters: {
 		orderState(num) {
 			if (num === 1) {
@@ -76,6 +75,14 @@ export default {
 				return '已取消';
 			}
 		},
+	},
+	methods: {
+		viewDetail(id) {
+			this.$router.push(`/member/order/${id}`);
+		},
+	},
+	beforeDestroy() {
+		this.$off(['receiveOrderId', 'orderIds']);
 	},
 };
 </script>

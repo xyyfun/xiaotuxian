@@ -5,11 +5,12 @@ import request from '@/utils/request';
  * @description  : 获取我的订单数据列表
  * @param         {*} page:当前页
  * @param         {*} pageSize:一页多少数量
+ * @param         {*} orderState:订单状态，1为待付款、2为待发货、3为待收货、4为待评价、5为已完成、6为已取消，未传或0为全部
  * @return        {*}
  */
-export const getOrderList = (page = 1, pageSize = 5) => {
+export const getOrderList = (page = 1, pageSize = 5, orderState = 0) => {
 	return request({
-		url: `/member/order?page=${page}&pageSize=${pageSize}`,
+		url: `/member/order?page=${page}&pageSize=${pageSize}&orderState=${orderState}`,
 		method: 'get',
 	});
 };

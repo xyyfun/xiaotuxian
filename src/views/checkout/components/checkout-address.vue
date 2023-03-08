@@ -6,7 +6,10 @@
 				<template v-else>
 					<ul>
 						<li><span>收货人：</span>{{ isDefault.receiver }}</li>
-						<li><span>联系方式：</span>{{ isDefault.contact }}</li>
+						<li>
+							<span>联系方式：</span
+							>{{ isDefault.contact.replace(/([0-9]{3})([0-9]{4})([0-9]{4})/, '$1****$3') }}
+						</li>
 						<li><span>收货地址：</span>{{ isDefault.fullLocation + isDefault.address }}</li>
 					</ul>
 					<a href="javascript:;">修改地址</a>
@@ -26,15 +29,14 @@
 						:class="item.id == id ? 'selected' : ''"
 						@click="changAddress(item.id)"
 						v-for="item in userAddresses"
-						:key="item.id"
-					>
+						:key="item.id">
 						<dl>
 							<dt>收货人：</dt>
 							<dd>{{ item.receiver }}</dd>
 						</dl>
 						<dl>
 							<dt>联系方式：</dt>
-							<dd>{{ item.contact }}</dd>
+							<dd>{{ item.contact.replace(/([0-9]{3})([0-9]{4})([0-9]{4})/, '$1****$3') }}</dd>
 						</dl>
 						<dl>
 							<dt>收货地址：</dt>

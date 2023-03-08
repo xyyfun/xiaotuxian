@@ -3,7 +3,7 @@
 		<HomeOverview />
 		<XtxGuess />
 		<HomePanel v-for="(data, index) in result" :key="index">
-			<HomeHeader :title="data.type" slot="head" />
+			<HomeHeader :title="data.type" :route="data.route" slot="head" />
 			<HomeGoods :item="data.items" slot="body" />
 		</HomePanel>
 	</div>
@@ -30,6 +30,7 @@ export default {
 			getMyCollection().then(data => {
 				if (data.data.code === '1') {
 					data.data.result.type = '我的收藏';
+					data.data.result.route = '/member/collect/goods';
 					this.result.push(data.data.result);
 				}
 			});
@@ -37,12 +38,11 @@ export default {
 		// 足迹
 		footprint() {
 			getMyFootprint(this.$store.state.user.userAddress[0]).then(data => {
-				if (data.data.code === '1') {
-					let arr = data.data.result.items.map(item => item.spu);
-					data.data.result.items = arr;
-					data.data.result.type = '我的足迹';
-					this.result.push(data.data.result);
-				}
+				let arr = data.data.result.items.map(item => item.spu);
+				data.data.result.items = arr;
+				data.data.result.type = '我的足迹';
+				data.data.result.route = '/member/foot';
+				this.result.push(data.data.result);
 			});
 		},
 	},
