@@ -132,6 +132,7 @@ export default {
 			error: require('../../../assets/images/200.png'),
 			pathMap: null, // 字典
 			spec: '', // 规格
+			symbol: '※',
 		};
 	},
 	props: ['result'],
@@ -163,7 +164,7 @@ export default {
 					// 未选中的替换对应的值
 					selectedArr[i] = val.name;
 					// 过滤无效值得到key
-					const key = selectedArr.filter(v => v).join('*');
+					const key = selectedArr.filter(v => v).join(this.symbol);
 					// 设置禁用状态
 					val.disabled = !this.pathMap[key];
 				});
@@ -176,7 +177,7 @@ export default {
 				const selectedVal = spec.values.find(val => val.selected);
 				selectedArr.push(selectedVal ? selectedVal.name : undefined);
 			});
-			this.spec = selectedArr.join('*');
+			this.spec = selectedArr.join(this.symbol);
 			return selectedArr;
 		},
 		// pathMap字典
@@ -188,7 +189,7 @@ export default {
 					const specs = sku.specs.map(spec => spec.valueName); // 得到 规格+颜色（拼接）
 					const powerSet = getPowerSet(specs);
 					powerSet.forEach(set => {
-						const key = set.join('*');
+						const key = set.join(this.symbol);
 						if (pathMap[key]) {
 							// 已经有key往数组追加
 							pathMap[key].push(sku.id);
@@ -224,7 +225,7 @@ export default {
 		// 加入购物车
 		addCartGoods() {
 			let i = 0;
-			this.spec.split('*').forEach(e => {
+			this.spec.split(this.symbol).forEach(e => {
 				if (e) i++;
 			});
 			if (this.result.specs.length === i) {

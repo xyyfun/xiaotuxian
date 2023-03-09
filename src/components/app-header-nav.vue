@@ -1,11 +1,11 @@
 <template>
 	<div class="layer" :class="{ open: isShow }">
 		<ul>
-			<li v-for="item in children" :key="item.id">
-				<a href="javascript:;"
-					><img :src="item.picture" alt="" />
-					<p>{{ item.name }}</p></a
-				>
+			<li v-for="item in children" :key="item.id" @click="isShow = !isShow">
+				<router-link :to="`/category/sub/${item.id}`">
+					<img :src="item.picture" alt="" />
+					<p>{{ item.name }}</p>
+				</router-link>
 			</li>
 		</ul>
 	</div>

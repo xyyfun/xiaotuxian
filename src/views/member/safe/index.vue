@@ -1,19 +1,18 @@
 <template>
 	<div class="xtx-safe">
 		<div class="member-safe-page">
-			<div class="xtx-center-head">
-				<h4 class="title">安全设置</h4>
-			</div>
+			<XtxCenterHead title="安全设置" />
 			<SafeHome />
 		</div>
 	</div>
 </template>
 
 <script>
+import XtxCenterHead from '@/components/library/xtx-center-head';
 import SafeHome from './components/safe-home';
 export default {
 	name: 'MemberSafe',
-	components: { SafeHome },
+	components: { SafeHome, XtxCenterHead },
 };
 </script>
 

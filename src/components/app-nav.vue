@@ -22,7 +22,7 @@
 				<li><a href="javascript:;">帮助中心</a></li>
 				<li><a href="javascript:;">关于我们</a></li>
 				<li>
-					<a href="javascript:;"><i class="iconfont icon-phone"></i>手机版</a>
+					<router-link to="/download"><i class="iconfont icon-phone"></i>手机版</router-link>
 				</li>
 			</ul>
 		</div>

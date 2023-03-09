@@ -1,8 +1,6 @@
 <template>
 	<div class="member-collect-goods-page">
-		<div class="xtx-center-head">
-			<h4 class="title fl">收藏的商品</h4>
-		</div>
+		<XtxCenterHead title="我的收藏" />
 		<div class="xtx-collect-goods" style="position: relative; min-height: 400px">
 			<ul>
 				<li v-for="(item, index) in result.items" :key="item.id">
@@ -29,8 +27,9 @@
 </template>
 
 <script>
-import { getMyCollection, cancelCollect } from '@/api/member';
+import XtxCenterHead from '@/components/library/xtx-center-head';
 import XtxPagination from '@/components/library/xtx-pagination';
+import { getMyCollection, cancelCollect } from '@/api/member';
 export default {
 	name: 'CollectGoods',
 	data() {
@@ -40,7 +39,7 @@ export default {
 			pageSize: 12,
 		};
 	},
-	components: { XtxPagination },
+	components: { XtxPagination, XtxCenterHead },
 	methods: {
 		// 取消收藏
 		cancel(id, index) {
@@ -89,16 +88,6 @@ export default {
 	background: #fff;
 	padding-bottom: 25px;
 	min-height: 100%;
-	.xtx-center-head {
-		line-height: 70px;
-		margin: 0 25px;
-		height: 70px;
-		border-bottom: 1px solid #f5f5f5;
-		.title {
-			font-size: 16px;
-			font-weight: 400;
-		}
-	}
 	.xtx-collect-goods {
 		position: relative;
 		min-height: 400px;

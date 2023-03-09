@@ -21,13 +21,13 @@
 					</template>
 				</HomeTitle>
 				<div class="product-content">
-					<a href="javascript:;" class="cover">
+					<router-link :to="`/category/${item.id}`" class="cover">
 						<img v-lazy="item.picture" alt="" />
 						<div class="lable">
 							<span>{{ item.name }}馆</span>
 							<span>{{ item.saleInfo }}</span>
 						</div>
-					</a>
+					</router-link>
 					<ul class="goods-list">
 						<li v-for="goods in item.goods" :key="goods.id">
 							<div class="good-item">

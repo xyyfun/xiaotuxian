@@ -2,15 +2,20 @@
 	<div class="member-address">
 		<div class="member-address-page">
 			<!-- 头部 -->
-			<AddressHeader :num="userAddress.length" @addAddress="isShowDialog = !isShowDialog" />
+			<XtxCenterHead title="收货地址">
+				<p class="text" slot="p">
+					（地址最多<span>10</span>条，还能保存<span>{{ 10 - userAddress.length }}</span
+					>条）
+				</p>
+				<a slot="a" href="javascript:;" class="add" @click="showDialog">+ 新建地址 </a>
+			</XtxCenterHead>
 			<!-- 主体内容 -->
 			<div v-if="userAddress.length">
 				<AddressList
 					v-for="item in userAddress"
 					:key="item.id"
 					:item="item"
-					@editAddress="editAddress"
-				/>
+					@editAddress="editAddress" />
 			</div>
 			<div v-else class="xtx-center-none">
 				<img src="../../../assets/images/none.png" alt="" />
@@ -78,7 +83,7 @@
 </template>
 
 <script>
-import AddressHeader from './components/address-header';
+import XtxCenterHead from '@/components/library/xtx-center-head';
 import AddressList from './components/address-list';
 import XtxDialog from '@/components/library/xtx-dialog';
 import XtxNationalAddress from '@/components/library/xtx-national-address';
@@ -184,8 +189,19 @@ export default {
 			this.id = data.id;
 			this.isShowDialog = true;
 		},
+		// 显示面板对话框
+		showDialog() {
+			if (this.userAddress.length < 10) {
+				this.isShowDialog = !this.isShowDialog;
+			} else {
+				this.$message({
+					type: 'warning',
+					message: '最多只能添加10条地址！',
+				});
+			}
+		},
 	},
-	components: { AddressHeader, AddressList, XtxDialog, XtxNationalAddress },
+	components: { XtxCenterHead, AddressList, XtxDialog, XtxNationalAddress },
 	created() {
 		// 判断地址是否存储至vuex
 		if (!this.$store.state.user.userAddress.length) {

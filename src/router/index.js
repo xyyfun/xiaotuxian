@@ -7,7 +7,6 @@ const router = new VueRouter({
 			path: '*',
 			redirect: '/home',
 		},
-
 		{
 			path: '/home',
 			component: () => import('@/views/Home'),
@@ -145,6 +144,26 @@ const router = new VueRouter({
 								isShowFooter: true,
 							},
 						},
+						{
+							path: 'special',
+							component: () => import('@/views/member/collect/special'),
+							meta: {
+								isShowNav: true,
+								isShowHeader: true,
+								isShowHeaderSticky: true,
+								isShowFooter: true,
+							},
+						},
+						{
+							path: 'brand',
+							component: () => import('@/views/member/collect/brand'),
+							meta: {
+								isShowNav: true,
+								isShowHeader: true,
+								isShowHeaderSticky: true,
+								isShowFooter: true,
+							},
+						},
 					],
 				},
 			],
@@ -172,6 +191,36 @@ const router = new VueRouter({
 		{
 			path: '/pay',
 			component: () => import('@/views/pay'),
+			meta: {
+				isShowNav: true,
+				isShowHeader: true,
+				isShowHeaderSticky: true,
+				isShowFooter: true,
+			},
+		},
+		{
+			path: '/category/:id',
+			component: () => import('@/views/category'),
+			meta: {
+				isShowNav: true,
+				isShowHeader: true,
+				isShowHeaderSticky: true,
+				isShowFooter: true,
+			},
+		},
+		{
+			path: '/category/sub/:id',
+			component: () => import('@/views/category/sub'),
+			meta: {
+				isShowNav: true,
+				isShowHeader: true,
+				isShowHeaderSticky: true,
+				isShowFooter: true,
+			},
+		},
+		{
+			path: '/download',
+			component: () => import('@/views/download'),
 			meta: {
 				isShowNav: true,
 				isShowHeader: true,

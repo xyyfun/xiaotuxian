@@ -67,6 +67,7 @@ export default {
 		},
 		// 提交订单
 		subOrder() {
+			// 未选地址使用默认地址
 			if (!this.addressId) {
 				this.result.userAddresses.forEach(e => {
 					if (!e.isDefault) {

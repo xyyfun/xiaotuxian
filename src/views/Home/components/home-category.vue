@@ -2,8 +2,10 @@
 	<div class="home-category">
 		<ul class="menu">
 			<li v-for="item in wrapCategory" :key="item.id">
-				<a href="javascript:;">{{ item.name }}</a>
-				<a href="javascript:;" v-for="list in item.children" :key="list.id">{{ list.name }}</a>
+				<router-link :to="`/category/${item.id}`">{{ item.name }}</router-link>
+				<router-link :to="`/category/sub/${list.id}`" v-for="list in item.children" :key="list.id"
+					>{{ list.name }}
+				</router-link>
 			</li>
 		</ul>
 	</div>

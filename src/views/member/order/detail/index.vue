@@ -1,5 +1,5 @@
 <template>
-	<div class="member-order-detail">
+	<div class="member-order-detail" v-if="result.id">
 		<!-- 商品当前状态 -->
 		<DetailAction
 			:orderState="result.orderState"
@@ -12,7 +12,8 @@
 			:payTime="result.payTime"
 			:consignTime="result.consignTime"
 			:evaluationTime="result.evaluationTime"
-			:endTime="result.endTime" />
+			:endTime="result.endTime"
+			:closeTime="result.closeTime" />
 		<!-- 商品详情 -->
 		<DetailInfo :result="result" />
 	</div>
@@ -38,5 +39,3 @@ export default {
 	},
 };
 </script>
-
-<style></style>

@@ -13,7 +13,7 @@
 		<td>
 			<div class="goods">
 				<router-link :to="`/goods/${item.id}`" class=""
-					><img :src="item.picture" alt=""
+					><img v-lazy="item.picture" alt=""
 				/></router-link>
 				<div>
 					<p class="name ellipsis">{{ item.name }}</p>

@@ -41,7 +41,6 @@ export default {
 		// 删除地址
 		async removeUserAddress(context, id) {
 			const result = await removeUserAddress(id);
-			console.log(result.data.code);
 			if (result.data.code === '1') {
 				context.dispatch('getUserAddress');
 				return true;

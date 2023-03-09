@@ -10,9 +10,8 @@
 					v-for="(item, index) in categoryDataList"
 					:key="item.id"
 					@mouseenter="showNav(index)"
-					@mouseleave="hideNav(index)"
-				>
-					<a href="#">{{ item.name }}</a>
+					@mouseleave="hideNav(index)">
+					<router-link :to="`/category/${item.id}`">{{ item.name }}</router-link>
 					<AppHeaderNav :children="item.children" ref="open" />
 				</li>
 			</ul>

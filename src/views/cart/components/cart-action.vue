@@ -5,8 +5,7 @@
 				<i
 					class="iconfont"
 					:class="isAllChecked ? 'icon-duoxuanxuanzhong green' : 'icon-duoxuanweixuanzhong'"
-					@click="$bus.$emit('action', !isAllChecked)"
-				></i
+					@click="$bus.$emit('action', !isAllChecked)"></i
 				><span>全选</span>
 			</div>
 			<a href="javascript:;" @click="removeSelected">删除选中商品</a
@@ -15,7 +14,7 @@
 		</div>
 		<div class="total">
 			共 {{ allGoodsNum }} 件商品，已选择 {{ allSelectedNum }} 件，商品合计：
-			<span class="red">¥{{ allSelectedTotalPrice }}</span
+			<span class="red">¥{{ allSelectedTotalPrice.toFixed(2) }}</span
 			><button class="xtx-button ellipsis middle primary" @click="placeOrder">下单结算</button>
 		</div>
 	</div>

@@ -9,7 +9,7 @@
 				<router-link exact-active-class="active" to="/member/safe">安全设置</router-link>
 				<router-link exact-active-class="active" to="/member/address">地址管理</router-link>
 				<a href="javascript:;">我的积分</a>
-				<router-link to="/member/foot">我的足迹</router-link>
+				<router-link exact-active-class="active" to="/member/foot">我的足迹</router-link>
 				<a href="javascript:;">邀请有礼</a>
 				<a href="javascript:;">幸运抽奖</a>
 			</div>
@@ -23,9 +23,11 @@
 			</div>
 			<h4>我的收藏</h4>
 			<div class="links">
-				<router-link to="/member/collect/goods">收藏的商品</router-link>
-				<a href="javascript:;">收藏的专题</a>
-				<a href="javascript:;">关注的品牌</a>
+				<router-link exact-active-class="active" to="/member/collect/goods">收藏的商品</router-link>
+				<router-link exact-active-class="active" to="/member/collect/special">
+					收藏的专题
+				</router-link>
+				<router-link exact-active-class="active" to="/member/collect/brand">关注的品牌</router-link>
 			</div>
 			<h4>帮助中心</h4>
 			<div class="links">
