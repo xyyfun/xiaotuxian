@@ -13,13 +13,14 @@
 		</p>
 		<div class="btn">
 			<router-link
+				replace
 				:to="`/member/order/${id}`"
 				type="primary"
 				class="xtx-common-btn"
 				style="margin-right: 20px"
 				>查看订单</router-link
 			>
-			<router-link to="/home" class="xtx-common-btn" type="info">进入首页</router-link>
+			<router-link replace to="/home" class="xtx-common-btn" type="info">进入首页</router-link>
 		</div>
 		<p class="alert">
 			<span class="iconfont icon-tip"></span>

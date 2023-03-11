@@ -175,7 +175,7 @@ export default {
 				},
 				reject => {
 					this.$message({
-						message: reject.message,
+						message: reject.response.data.message,
 						type: 'error',
 					});
 				}

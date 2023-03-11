@@ -78,11 +78,13 @@ export default {
 			let { addressId, deliveryTimeType, payType, goods } = this;
 			subOrder(addressId, deliveryTimeType, payType, goods).then(
 				resolv => {
-					this.$router.push(`/pay?id=${resolv.data.result.id}`);
+					this.$router.replace(`/pay?id=${resolv.data.result.id}`);
 					this.$message({
 						message: '订单提交成功，请尽快支付！',
 						type: 'success',
 					});
+					// 订单提交成功重新获取购物车刷新数据
+					this.$store.dispatch('cart/getCartDataList');
 				},
 				reject => {
 					this.$message({

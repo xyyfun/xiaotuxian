@@ -94,6 +94,7 @@
 							<span
 								@click="handlerSpecs(item, value)"
 								:class="{ selected: value.selected, disabled: value.disabled }"
+								:title="value.name"
 								v-else
 								>{{ value.name }}</span
 							>
@@ -230,6 +231,10 @@ export default {
 			});
 			if (this.result.specs.length === i) {
 				const sku = this.pathMap[this.spec]; // skuId
+				// 判断是否拥有token
+				if (!this.$store.state.user.token) {
+					return this.prompt();
+				}
 				addCart(sku[0], this.goodsNum).then(data => {
 					this.$message({
 						message: '加入购物车成功！',
@@ -245,9 +250,11 @@ export default {
 				});
 			}
 		},
+		// 点击小图片修改大图片
 		changImg(url) {
 			this.imageUrl = url;
 		},
+		// 选择规格
 		clickSpecs(item, val) {
 			this.$emit('changSpecs', item, val);
 		},
@@ -256,7 +263,7 @@ export default {
 		},
 		// 添加收藏
 		collectGoods() {
-			addCollect(this.result.id, 1).then(
+			addCollect([this.result.id], 1).then(
 				resolv => {
 					this.$message({
 						type: 'success',
@@ -270,6 +277,23 @@ export default {
 					});
 				}
 			);
+		},
+		// 提示登录
+		prompt() {
+			this.$confirm('添加购物车需要登录，现在去登录？', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning',
+			})
+				.then(() => {
+					this.$router.push('/login');
+				})
+				.catch(() => {
+					this.$message({
+						type: 'info',
+						message: '已取消',
+					});
+				});
 		},
 	},
 	directives: {

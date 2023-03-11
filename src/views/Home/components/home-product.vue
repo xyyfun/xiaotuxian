@@ -9,15 +9,15 @@
 					<template slot="nav">
 						<ul>
 							<li v-for="children in item.children" :key="children.id">
-								<a href="javascript:;">{{ children.name }}</a>
+								<router-link :to="`/category/sub/${children.id}`">{{ children.name }}</router-link>
 							</li>
 						</ul>
 					</template>
 					<template slot="more">
-						<a class="more" href="javascript:;">
+						<router-link :to="`/category/${item.id}`" class="more">
 							<span>查看全部</span>
 							<i class="iconfont icon-right"></i>
-						</a>
+						</router-link>
 					</template>
 				</HomeTitle>
 				<div class="product-content">

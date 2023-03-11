@@ -115,37 +115,41 @@ export default {
 	},
 	methods: {
 		// 添加地址
-		async saveUserAddress() {
-			try {
-				await this.$store.dispatch('user/addUserAddress', this.params);
-				this.cancel();
-				this.$message({
-					type: 'success',
-					message: '添加成功！',
-				});
-			} catch (error) {
-				this.cancel();
-				this.$message({
-					type: 'error',
-					message: '添加失败，请稍后再试！',
-				});
-			}
+		saveUserAddress() {
+			this.$store.dispatch('user/addUserAddress', this.params).then(
+				() => {
+					this.cancel();
+					this.$message({
+						type: 'success',
+						message: '添加成功！',
+					});
+				},
+				reason => {
+					this.cancel();
+					this.$message({
+						type: 'error',
+						message: reason.data.message,
+					});
+				}
+			);
 		},
-		async updateAddress() {
-			try {
-				await this.$store.dispatch('user/updateUserAddress', { data: this.params, id: this.id });
-				this.cancel();
-				this.$message({
-					type: 'success',
-					message: '地址修改成功！',
-				});
-			} catch (error) {
-				this.cancel();
-				this.$message({
-					type: 'error',
-					message: '地址修改失败，请稍后再试！',
-				});
-			}
+		updateAddress() {
+			this.$store.dispatch('user/updateUserAddress', { data: this.params, id: this.id }).then(
+				() => {
+					this.cancel();
+					this.$message({
+						type: 'success',
+						message: '地址修改成功！',
+					});
+				},
+				reason => {
+					this.cancel();
+					this.$message({
+						type: 'error',
+						message: reason.data.message,
+					});
+				}
+			);
 		},
 		// 取消
 		cancel() {

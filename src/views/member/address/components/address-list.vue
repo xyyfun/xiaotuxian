@@ -33,19 +33,21 @@ export default {
 				cancelButtonText: '取消',
 				type: 'warning',
 			})
-				.then(async () => {
-					try {
-						await this.$store.dispatch('user/removeUserAddress', this.item.id);
-						this.$message({
-							type: 'success',
-							message: '删除成功！',
-						});
-					} catch (error) {
-						this.$message({
-							type: 'error',
-							message: '删除失败，请稍后再试！',
-						});
-					}
+				.then(() => {
+					this.$store.dispatch('user/removeUserAddress', this.item.id).then(
+						() => {
+							this.$message({
+								type: 'success',
+								message: '删除成功！',
+							});
+						},
+						reason => {
+							this.$message({
+								type: 'error',
+								message: reason.data.message,
+							});
+						}
+					);
 				})
 				.catch(() => {
 					this.$message({

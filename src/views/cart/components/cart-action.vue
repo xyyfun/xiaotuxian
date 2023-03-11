@@ -1,15 +1,17 @@
 <template>
 	<div class="action">
 		<div class="batch">
-			<div class="xtx-checkbox" :class="{ green: isAllChecked }">
+			<div
+				class="xtx-checkbox"
+				@click="$bus.$emit('action', !isAllChecked)"
+				:class="{ green: isAllChecked }">
 				<i
 					class="iconfont"
-					:class="isAllChecked ? 'icon-duoxuanxuanzhong green' : 'icon-duoxuanweixuanzhong'"
-					@click="$bus.$emit('action', !isAllChecked)"></i
+					:class="isAllChecked ? 'icon-duoxuanxuanzhong green' : 'icon-duoxuanweixuanzhong'"></i
 				><span>全选</span>
 			</div>
 			<a href="javascript:;" @click="removeSelected">删除选中商品</a
-			><a href="javascript:;">移入收藏夹</a
+			><a href="javascript:;" @click="collect">移入收藏夹</a
 			><a href="javascript:;" @click="removeSelected">清空失效商品</a>
 		</div>
 		<div class="total">
@@ -22,11 +24,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { addCollect } from '@/api/member';
 export default {
 	name: 'CartAction',
 	computed: {
 		...mapGetters('cart', [
 			'isAllChecked',
+			'allSelectedId',
 			'allGoodsNum',
 			'allSelectedNum',
 			'allSelectedTotalPrice',
@@ -53,8 +57,31 @@ export default {
 					});
 				});
 		},
+		// 下单按钮
 		placeOrder() {
 			this.$router.push('/checkout');
+		},
+		// 批量移入收藏夹
+		collect() {
+			this.$confirm('确定将已选中的商品移入收藏夹？', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning',
+			})
+				.then(() => {
+					addCollect(this.allSelectedId, 1).then(resolv => {
+						this.$message({
+							type: 'success',
+							message: '收藏成功!',
+						});
+					});
+				})
+				.catch(() => {
+					this.$message({
+						type: 'info',
+						message: '已取消删除',
+					});
+				});
 		},
 	},
 };
@@ -74,10 +101,10 @@ export default {
 		color: rgb(153, 153, 153);
 		display: inline-block;
 		padding-left: 3px;
+		cursor: pointer;
 		i {
 			position: relative;
 			top: 1px;
-			cursor: pointer;
 		}
 		span {
 			margin-left: 2px;
