@@ -25,3 +25,17 @@ export const getCategoryFilter = id => {
 		method: 'get',
 	});
 };
+
+/**
+ * @Date         : 2023-03-09 20:35:40
+ * @description  : 获取分页查询数据（过滤数据）
+ * @return        {*}
+ */
+export const getPagingQuery = data => {
+	return request({
+		url: '/category/goods',
+		method: 'post',
+		header: { 'Content-Type': 'application/json' },
+		data,
+	});
+};
