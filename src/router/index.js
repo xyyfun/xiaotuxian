@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import { getToken } from '@/utils/userInfo';
 Vue.use(VueRouter);
 const router = new VueRouter({
 	routes: [
@@ -42,6 +43,7 @@ const router = new VueRouter({
 		},
 		{
 			path: '/member',
+			name: 'member',
 			component: () => import('@/views/member'),
 			meta: {
 				isShowNav: true,
@@ -63,6 +65,7 @@ const router = new VueRouter({
 				},
 				{
 					path: 'order',
+					name: 'order',
 					component: () => import('@/views/member/order'),
 					meta: {
 						isShowNav: true,
@@ -73,6 +76,7 @@ const router = new VueRouter({
 					children: [
 						{
 							path: ':id',
+							name: 'detail',
 							component: () => import('@/views/member/order/detail'),
 							name: 'orderDetail',
 							meta: {
@@ -86,6 +90,7 @@ const router = new VueRouter({
 				},
 				{
 					path: 'address',
+					name: 'address',
 					component: () => import('@/views/member/address'),
 					meta: {
 						isShowNav: true,
@@ -96,6 +101,7 @@ const router = new VueRouter({
 				},
 				{
 					path: 'safe',
+					name: 'safe',
 					component: () => import('@/views/member/safe'),
 					meta: {
 						isShowNav: true,
@@ -106,6 +112,7 @@ const router = new VueRouter({
 				},
 				{
 					path: 'info',
+					name: 'info',
 					component: () => import('@/views/member/info'),
 					meta: {
 						isShowNav: true,
@@ -116,6 +123,7 @@ const router = new VueRouter({
 				},
 				{
 					path: 'foot',
+					name: 'foot',
 					component: () => import('@/views/member/foot'),
 					meta: {
 						isShowNav: true,
@@ -135,7 +143,8 @@ const router = new VueRouter({
 					},
 					children: [
 						{
-							path: 'goods',
+							path: '/',
+							name: 'collect',
 							component: () => import('@/views/member/collect/goods'),
 							meta: {
 								isShowNav: true,
@@ -146,6 +155,7 @@ const router = new VueRouter({
 						},
 						{
 							path: 'special',
+							name: 'special',
 							component: () => import('@/views/member/collect/special'),
 							meta: {
 								isShowNav: true,
@@ -156,6 +166,7 @@ const router = new VueRouter({
 						},
 						{
 							path: 'brand',
+							name: 'brand',
 							component: () => import('@/views/member/collect/brand'),
 							meta: {
 								isShowNav: true,
@@ -180,6 +191,7 @@ const router = new VueRouter({
 		},
 		{
 			path: '/checkout',
+			name: 'checkout',
 			component: () => import('@/views/checkout'),
 			meta: {
 				isShowNav: true,
@@ -190,6 +202,7 @@ const router = new VueRouter({
 		},
 		{
 			path: '/pay',
+			name: 'pay',
 			component: () => import('@/views/pay'),
 			meta: {
 				isShowNav: true,
@@ -234,4 +247,38 @@ const router = new VueRouter({
 		return { y: 0 };
 	},
 });
+
+// 前置守卫
+router.beforeEach((to, from, next) => {
+	// 判断是否有 token
+	if (!getToken()) {
+		// 未登录时权限不足
+		if (
+			to.name === 'member' ||
+			to.name === 'order' ||
+			to.name === 'address' ||
+			to.name === 'safe' ||
+			to.name === 'info' ||
+			to.name === 'foot' ||
+			to.name === 'collect' ||
+			to.name === 'special' ||
+			to.name === 'brand' ||
+			to.name === 'checkout' ||
+			to.name === 'pay'
+		) {
+			next('/login');
+		}
+		next();
+	} else {
+		// 有token但访问的是登陆注册
+		if (to.path === '/login' || to.path === 'register') {
+			next('/');
+		} else {
+			next();
+		}
+	}
+});
+
+//全局后置守卫：初始化时执行、每次路由切换后执行
+router.afterEach((to, from) => {});
 export default router;
