@@ -65,7 +65,7 @@ import OrderHeader from './components/order-header';
 import OrderList from './components/order-list';
 import XtxPagination from '@/components/library/xtx-pagination';
 import XtxDialog from '@/components/library/xtx-dialog';
-import Detail from './detail';
+import Detail from './Detail';
 import { getOrderList, cancelOrder, removeOrder } from '@/api/order';
 export default {
 	name: 'MemberOrder',
