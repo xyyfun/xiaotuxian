@@ -23,12 +23,12 @@
 					</div>
 					<div class="form-item">
 						<div class="agree">
-							<div class="xtx-checked">
+							<div class="xtx-checked" :style="validate.isChecked ? 'color: #27ba9b' : ''">
 								<i class="iconfont" :class="ico" @click="changChecked"></i>
 								<span>我已同意</span>
-								<a href="">《隐私条款》</a>
+								<a href="javascript:;">《隐私条款》</a>
 								<span>和</span>
-								<a href="">《服务条款》</a>
+								<a href="javascript:;">《服务条款》</a>
 							</div>
 							<div class="error" v-if="!validate.isChecked">请阅读并同意条款</div>
 						</div>
@@ -37,12 +37,10 @@
 				</form>
 				<div class="action">
 					<a
-						href="https://graph.qq.com/oauth2.0/authorize?client_id=101941968&response_type=token&scope=all&redirect_uri=http%3A%2F%2Ferabbit.itheima.net%2F%23%2Flogin%2Fcallback"
-					>
+						href="https://graph.qq.com/oauth2.0/authorize?client_id=101941968&response_type=token&scope=all&redirect_uri=http%3A%2F%2Ferabbit.itheima.net%2F%23%2Flogin%2Fcallback">
 						<img
 							src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
-							alt=""
-						/>
+							alt="" />
 					</a>
 					<div class="url">
 						<a href="">忘记密码</a><router-link to="/register">免费注册</router-link>
@@ -62,22 +60,28 @@ export default {
 		return {
 			account: 'xiaotuxian001',
 			password: '123456',
-			ico: 'icon-duoxuanweixuanzhong',
+			ico: 'icon-duoxuanxuanzhong',
 			validate: {
 				account: false,
 				password: false,
-				isChecked: false,
+				isChecked: true,
 			},
 		};
 	},
 	watch: {
-		account(newVal) {
-			if (newVal) return (this.validate.account = true);
-			this.validate.account = false;
+		account: {
+			immediate: true,
+			handler(newVal) {
+				if (newVal) return (this.validate.account = true);
+				this.validate.account = false;
+			},
 		},
-		password(newVal) {
-			if (newVal) return (this.validate.password = true);
-			this.validate.password = false;
+		password: {
+			immediate: true,
+			handler(newVal) {
+				if (newVal) return (this.validate.password = true);
+				this.validate.password = false;
+			},
 		},
 	},
 	methods: {
@@ -95,21 +99,19 @@ export default {
 				};
 				login(data).then(
 					data => {
-						if (data.data.code === '1') {
-							// 持久化用户信息
-							setUserInfo(JSON.stringify(data.data.result));
-							// 持久化token
-							setToken(data.data.result.token);
-							// 将token存储至vuex
-							this.$store.commit('user/setToken', data.data.result.token);
-							// 将用户信息存储vux
-							this.$store.commit('user/setUserInfo', data.data.result);
-							this.$message({
-								message: '登录成功！',
-								type: 'success',
-							});
-							this.$router.push('/home');
-						}
+						// 持久化用户信息
+						setUserInfo(JSON.stringify(data.data.result));
+						// 持久化token
+						setToken(data.data.result.token);
+						// 将token存储至vuex
+						this.$store.commit('user/setToken', data.data.result.token);
+						// 将用户信息存储vux
+						this.$store.commit('user/setUserInfo', data.data.result);
+						this.$message({
+							message: '登录成功！',
+							type: 'success',
+						});
+						this.$router.push('/home');
 					},
 					error => {
 						this.$message({
