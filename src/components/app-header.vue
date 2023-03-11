@@ -15,7 +15,7 @@
 			</ul>
 			<div class="search">
 				<i class="icon-search iconfont"></i>
-				<input type="text" placeholder="搜一搜" />
+				<input type="text" v-model="keyword" @keyup.enter="search" placeholder="搜一搜" />
 			</div>
 			<div class="cart" @mouseenter="isShowLayer = true" @mouseleave="isShowLayer = false">
 				<router-link to="/cart" class="curr">
@@ -60,6 +60,7 @@ export default {
 	data() {
 		return {
 			isShowLayer: false,
+			keyword: '', //搜索关键字
 		};
 	},
 	computed: {
@@ -68,6 +69,13 @@ export default {
 		...mapGetters('cart', ['allSelectedNum', 'allSelectedTotalPrice']),
 	},
 	components: { AppHeaderNav },
+	watch: {
+		keyword(newVal) {
+			searchPrompt(newVal).then(data => {
+				console.log(data);
+			});
+		},
+	},
 	methods: {
 		showNav(id) {
 			this.$refs.open[id].isShow = true;
@@ -78,6 +86,10 @@ export default {
 		// 删除商品
 		remove(skuId) {
 			this.$store.dispatch('cart/removeCartGoods', skuId);
+		},
+		// 跳转搜索页
+		search() {
+			this.$message('搜索功能暂未开通，敬请期待！');
 		},
 	},
 };

@@ -66,7 +66,7 @@ export default {
 				return '已完成';
 			} else if (num === 6) {
 				this.stateIco = 'icon-yiquxiao1';
-				return '已取消';
+				return '交易关闭';
 			} else {
 				return '加载中...';
 			}

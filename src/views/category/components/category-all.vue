@@ -25,7 +25,6 @@ export default {
 
 <style lang="less" scoped>
 .sub-list {
-	margin-top: 20px;
 	background-color: #fff;
 	ul {
 		display: flex;

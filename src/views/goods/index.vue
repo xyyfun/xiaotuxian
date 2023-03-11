@@ -8,7 +8,7 @@
 				<GoodsFooter :details="details" :weekHotList="weekHotList" :dayHotList="dayHotList" />
 			</div>
 		</transition>
-
+		<!-- 加载 -->
 		<div class="load" v-if="!elementOver">
 			<div class="loading">
 				<img src="../../assets/images/loading.gif" alt="" />
@@ -122,9 +122,28 @@ export default {
 				if (this.waitImgNum === this.loadImgNum) {
 					this.elementOver = true; // 图片加载完毕|显示商品
 					// 将面包屑数据打包发送给组件
-					this.$bus.$emit('bread', this.result.categories, this.result.name, this.result.id);
+					this.bread();
 				}
 			}
+		},
+		// 面包屑处理
+		bread() {
+			// layer
+			const bread = this.result.categories.map(item => {
+				if (item.layer === 1) {
+					item.id = '/category/' + item.id;
+					return item;
+				} else {
+					item.id = '/category/sub/' + item.id;
+					return item;
+				}
+			});
+			bread.reverse();
+			bread.push({
+				id: `/goods/${this.result.id}`,
+				name: this.result.name,
+			});
+			this.$bus.$emit('bread', bread);
 		},
 	},
 };
