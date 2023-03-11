@@ -12,7 +12,7 @@ export const addCollect = (collectObjectIds, collectType) => {
 		url: '/member/collect',
 		method: 'post',
 		header: { 'Content-Type': 'application/json' },
-		data: { collectObjectIds: [collectObjectIds], collectType },
+		data: { collectObjectIds, collectType },
 	});
 };
 

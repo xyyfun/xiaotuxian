@@ -1,16 +1,17 @@
 <template>
 	<div class="sub-filter" v-if="saleProperties.length">
-		<div class="item" v-for="item in saleProperties" :key="item.id">
+		<div class="item" v-for="(item, indx) in saleProperties" :key="item.id">
 			<div class="head">{{ item.name }}：</div>
 			<div class="body">
 				<a
 					class="ellipsis"
-					:class="{ active: item.name === '全部' }"
-					:title="item.name"
+					:class="{ active: item.id === list.id }"
+					:title="list.name"
 					href="javascript:;"
-					v-for="(item, index) in item.properties"
+					@click="changFilter(item.name, list.name, list.id, indx)"
+					v-for="(list, index) in item.properties"
 					:key="index">
-					{{ item.name }}
+					{{ list.name }}
 				</a>
 			</div>
 		</div>
@@ -25,6 +26,22 @@ export default {
 			type: Array,
 			default: () => [],
 		},
+	},
+	methods: {
+		changFilter(item, list, id, index) {
+			this.$emit(
+				'changFilter',
+				{
+					groupName: item,
+					propertyName: list,
+					index,
+				},
+				id
+			);
+		},
+	},
+	beforeDestroy() {
+		this.$off('changFilter');
 	},
 };
 </script>

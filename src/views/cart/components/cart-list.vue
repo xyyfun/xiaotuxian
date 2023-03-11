@@ -104,7 +104,7 @@ export default {
 		},
 		// 添加收藏
 		collectGoods(id) {
-			addCollect(id, 1).then(
+			addCollect([id], 1).then(
 				resolv => {
 					this.$message({
 						type: 'success',

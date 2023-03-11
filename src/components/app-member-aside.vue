@@ -23,7 +23,7 @@
 			</div>
 			<h4>我的收藏</h4>
 			<div class="links">
-				<router-link exact-active-class="active" to="/member/collect/goods">收藏的商品</router-link>
+				<router-link exact-active-class="active" to="/member/collect">收藏的商品</router-link>
 				<router-link exact-active-class="active" to="/member/collect/special">
 					收藏的专题
 				</router-link>

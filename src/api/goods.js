@@ -1,5 +1,4 @@
 import request from '@/utils/request';
-import { method } from 'lodash';
 
 /**
  * @Date         : 2023-02-24 16:45:34
