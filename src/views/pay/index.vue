@@ -30,17 +30,6 @@ export default {
 				isSuccess: true, // 是否支付成功
 				payMode: '', // 支付方式
 			},
-			// 面包屑|模拟
-			bread: [
-				{
-					id: '',
-					name: '支付订单',
-				},
-				{
-					id: 'cart',
-					name: '购物车',
-				},
-			],
 		};
 	},
 	components: { AppBread, PayInfo, PayType, PaySuccess },
@@ -65,7 +54,10 @@ export default {
 		});
 	},
 	mounted() {
-		this.$bus.$emit('bread', this.bread);
+		this.$bus.$emit('bread', [
+			{ id: '/cart', name: '购物车' },
+			{ id: '/pay', name: '支付订单' },
+		]);
 	},
 };
 </script>

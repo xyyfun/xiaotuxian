@@ -38,6 +38,7 @@ export default {
 						e.properties.unshift({ id: e.id, name: '全部' });
 					});
 					this.result = data.data.result;
+					this.bread();
 				});
 			},
 		},
@@ -80,6 +81,18 @@ export default {
 			}
 			this.params.sortMethod = val;
 			this.filterQuery();
+		},
+		bread() {
+			const bread = [];
+			bread.push({
+				id: '/category/' + this.result.parentId,
+				name: this.result.parentName,
+			});
+			bread.push({
+				id: '/category/sub/' + this.result.id,
+				name: this.result.name,
+			});
+			this.$bus.$emit('bread', bread);
 		},
 	},
 	mounted() {

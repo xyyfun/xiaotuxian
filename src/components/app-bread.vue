@@ -1,11 +1,11 @@
 <template>
 	<div class="xtx-bread">
 		<div class="xtx-bread-item">
-			<router-link to="/home" class="router-link-active">首页</router-link>
+			<router-link to="/" class="router-link-active">首页</router-link>
 			<i class="iconfont icon-right"></i>
 		</div>
 		<div class="xtx-bread-item" v-for="(item, index) in result" :key="index">
-			<router-link :to="`/${item.id}`" class="router-link-active">{{ item.name }}</router-link>
+			<router-link :to="`${item.id}`" class="router-link-active">{{ item.name }}</router-link>
 			<i class="iconfont icon-right"></i>
 		</div>
 	</div>
@@ -19,20 +19,10 @@ export default {
 			result: [],
 		};
 	},
-	methods: {
-		bread(data, name, id) {
-			this.result = data.reverse();
-			if (id) {
-				this.result.push({
-					id,
-					name,
-					layer: this.result.length + 1,
-				});
-			}
-		},
-	},
 	mounted() {
-		this.$bus.$on('bread', this.bread);
+		this.$bus.$on('bread', value => {
+			this.result = value;
+		});
 	},
 	beforeDestroy() {
 		this.$bus.$off('bread');

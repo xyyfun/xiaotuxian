@@ -106,6 +106,12 @@ export default {
 			});
 		});
 	},
+	mounted() {
+		this.$bus.$emit('bread', [
+			{ id: '/cart', name: '购物车' },
+			{ id: '/checkout', name: '填写订单' },
+		]);
+	},
 };
 </script>
 

@@ -35,8 +35,19 @@ export default {
 				this.result = {};
 				category(this.$route.params.id).then(data => {
 					this.result = data.data.result;
+					this.bread(); // 面包屑传参
 				});
 			},
+		},
+	},
+	methods: {
+		bread() {
+			this.$bus.$emit('bread', [
+				{
+					id: '/category/' + this.result.id,
+					name: this.result.name,
+				},
+			]);
 		},
 	},
 };

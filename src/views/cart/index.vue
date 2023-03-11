@@ -18,6 +18,14 @@ import XtxGuess from '@/components/library/xtx-guess';
 export default {
 	name: 'Cart',
 	components: { AppBread, CartItem, CartAction, XtxGuess },
+	mounted() {
+		this.$bus.$emit('bread', [
+			{
+				id: '/cart',
+				name: '购物车',
+			},
+		]);
+	},
 };
 </script>
 
