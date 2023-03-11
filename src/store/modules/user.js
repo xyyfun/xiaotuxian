@@ -1,5 +1,6 @@
 import { getToken, getUserInfo } from '@/utils/userInfo';
 import { getUserAddress, removeUserAddress, addUserAddress, updateUserAddress } from '@/api/member';
+import { reject } from 'lodash';
 export default {
 	// 开启命名空间
 	namespaced: true,
@@ -33,40 +34,54 @@ export default {
 		// 获取用户收件地址
 		getUserAddress(context) {
 			getUserAddress().then(data => {
-				if (data.data.code === '1') {
-					context.commit('GETUSERADDRESS', data.data.result.reverse());
-				}
+				context.commit('GETUSERADDRESS', data.data.result.reverse());
 			});
 		},
 		// 删除地址
-		async removeUserAddress(context, id) {
-			const result = await removeUserAddress(id);
-			if (result.data.code === '1') {
-				context.dispatch('getUserAddress');
-				return true;
-			} else {
-				return Promise.reject(new Error('file'));
-			}
+		removeUserAddress(context, id) {
+			return removeUserAddress(id).then(
+				() => {
+					context.dispatch('getUserAddress');
+				},
+				reason => {
+					return Promise.reject(reason.response);
+				}
+			);
 		},
 		// 添加用户收件地址
-		async addUserAddress({ dispatch }, data) {
-			const result = await addUserAddress(data);
-			if (result.data.code === '1') {
-				dispatch('getUserAddress');
-				return true;
-			} else {
-				return Promise.reject(new Error(result.message));
-			}
+		addUserAddress({ dispatch }, data) {
+			return new Promise((resolve, reject) => {
+				addUserAddress(data).then(
+					resolve => {
+						dispatch('getUserAddress');
+						resolve();
+					},
+					reason => {
+						reject(reason.response);
+					}
+				);
+			});
+			/* return addUserAddress(data).then(
+				() => {
+					dispatch('getUserAddress');
+				},
+				reason => {
+					return new Promise((resolve, reject) => {
+						reject(reason.response);
+					});
+				}
+			); */
 		},
 		// 更新地址
-		async updateUserAddress({ dispatch }, { data, id }) {
-			const result = await updateUserAddress(data, id);
-			if (result.data.code === '1') {
-				dispatch('getUserAddress');
-				return true;
-			} else {
-				return Promise.reject(new Error('file'));
-			}
+		updateUserAddress({ dispatch }, { data, id }) {
+			return updateUserAddress(data, id).then(
+				() => {
+					dispatch('getUserAddress');
+				},
+				reason => {
+					return Promise.reject(reason.response);
+				}
+			);
 		},
 	},
 	getters: {},

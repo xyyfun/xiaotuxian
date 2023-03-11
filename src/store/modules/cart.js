@@ -14,26 +14,20 @@ export default {
 		// 获取购物车列表
 		getCartDataList(context) {
 			getCartList().then(data => {
-				if (data.data.code === '1') {
-					context.commit('GETCARTDATALIST', data.data.result);
-				}
+				context.commit('GETCARTDATALIST', data.data.result);
 			});
 		},
 		// 全选or全不选
 		changAllSelected(context, selected) {
 			let ids = context.getters.stock.map(item => item.skuId);
 			changeCartSelected(selected, ids).then(data => {
-				if (data.data.code === '1') {
-					context.dispatch('getCartDataList');
-				}
+				context.dispatch('getCartDataList');
 			});
 		},
 		// 单选商品或修改商品数量
 		changGoodsNum(context, { selected, count, skuId }) {
 			modifyGoodsNum(selected, count, skuId).then(data => {
-				if (data.data.code === '1') {
-					context.dispatch('getCartDataList');
-				}
+				context.dispatch('getCartDataList');
 			});
 		},
 		// 删除商品或删除失效商品
@@ -42,16 +36,12 @@ export default {
 				let ids = [];
 				ids.push(skuId);
 				removeGoods(ids).then(data => {
-					if (data.data.code === '1') {
-						context.dispatch('getCartDataList');
-					}
+					context.dispatch('getCartDataList');
 				});
 			} else {
 				let ids = context.getters.allSelected.map(item => item.skuId);
 				removeGoods(ids).then(data => {
-					if (data.data.code === '1') {
-						context.dispatch('getCartDataList');
-					}
+					context.dispatch('getCartDataList');
 				});
 			}
 		},
@@ -93,6 +83,16 @@ export default {
 				if (e.selected) num += e.price * e.count + e.postFee;
 			});
 			return num;
+		},
+		// 返回购物车已选中的商品id
+		allSelectedId(state) {
+			const arr = [];
+			state.list.forEach(item => {
+				if (item.selected) {
+					arr.push(item.id);
+				}
+			});
+			return arr;
 		},
 	},
 };

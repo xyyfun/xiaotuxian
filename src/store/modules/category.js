@@ -11,13 +11,10 @@ export default {
 		},
 	},
 	actions: {
-		async getCategoryDataList({ commit }) {
-			const result = await getCategory();
-			if (result.data.code === '1') {
+		getCategoryDataList({ commit }) {
+			getCategory().then(result => {
 				commit('GETCATEGORYDATALIST', result.data.result);
-			} else {
-				return Promise.reject(new Error('file'));
-			}
+			});
 		},
 	},
 	getters: {
