@@ -18,7 +18,9 @@ export default {
 	components: { AppNav, AppFooter, AppHeader, AppHeaderSticky },
 	created() {
 		this.$store.dispatch('category/getCategoryDataList');
-		this.$store.dispatch('cart/getCartDataList');
+		if (this.$store.state.user.token) {
+			this.$store.dispatch('cart/getCartDataList');
+		}
 	},
 };
 </script>
