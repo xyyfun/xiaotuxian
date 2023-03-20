@@ -1,22 +1,25 @@
 <template>
 	<div class="home-hot">
-		<div class="container">
+		<div class="container" ref="hot">
 			<HomeTitle>
 				<template slot="title">
 					<h3>人气推荐 <span>人气爆款 不容错过</span></h3>
 				</template>
 			</HomeTitle>
-			<div class="home-content">
-				<ul>
-					<li v-for="item in hotDataList" :key="item.id">
-						<a href="javascript:;">
-							<img v-lazy="item.picture" alt="" />
-							<p class="ellipsis">{{ item.title }}</p>
-							<p>{{ item.alt }}</p>
-						</a>
-					</li>
-				</ul>
-			</div>
+			<transition name="fade">
+				<div class="home-content" v-if="hotDataList.length">
+					<ul>
+						<li v-for="item in hotDataList" :key="item.id">
+							<a href="javascript:;">
+								<img :src="item.picture" alt="" />
+								<p class="ellipsis">{{ item.title }}</p>
+								<p>{{ item.alt }}</p>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<HomeSkeleton father="426px" width="306px" height="406px" :number="4" v-else />
+			</transition>
 		</div>
 	</div>
 </template>
@@ -24,6 +27,8 @@
 <script>
 import { getHot } from '@/api/home';
 import HomeTitle from './home-title';
+import observe from '@/utils/IntersectionObserver';
+import HomeSkeleton from './home-skeleton.vue';
 export default {
 	name: 'HomeHot',
 	data() {
@@ -33,16 +38,20 @@ export default {
 	},
 	components: {
 		HomeTitle,
+		HomeSkeleton,
 	},
 	mounted() {
-		getHot().then(data => {
-			this.hotDataList = data.data.result;
+		observe(this.$refs.hot, () => {
+			getHot().then(data => {
+				this.hotDataList = data.data.result;
+			});
 		});
 	},
 };
 </script>
 
 <style lang="less" scoped>
+@import '@/assets/styles/variables.less';
 .home-content {
 	height: 426px;
 	ul {

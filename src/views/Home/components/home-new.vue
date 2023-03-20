@@ -1,6 +1,6 @@
 <template>
 	<div class="home-new">
-		<div class="container">
+		<div class="container" ref="new">
 			<HomeTitle>
 				<template slot="title">
 					<h3>新鲜好物 <span>新鲜出入 品质靠谱</span></h3>
@@ -12,17 +12,20 @@
 					</a>
 				</template>
 			</HomeTitle>
-			<div class="home-content">
-				<ul>
-					<li v-for="item in result" :key="item.id">
-						<router-link :to="`/goods/${item.id}`">
-							<img v-lazy="item.picture" alt="" />
-							<p class="ellipsis">{{ item.desc }}</p>
-							<p>￥{{ item.price }}</p>
-						</router-link>
-					</li>
-				</ul>
-			</div>
+			<transition name="fade">
+				<div class="home-content" v-if="result.length">
+					<ul>
+						<li v-for="item in result" :key="item.id">
+							<router-link :to="`/goods/${item.id}`">
+								<img :src="item.picture" alt="" />
+								<p class="ellipsis">{{ item.desc }}</p>
+								<p>￥{{ item.price }}</p>
+							</router-link>
+						</li>
+					</ul>
+				</div>
+				<HomeSkeleton father="426px" width="306px" height="406px" :number="4" v-else />
+			</transition>
 		</div>
 	</div>
 </template>
@@ -30,6 +33,8 @@
 <script>
 import HomeTitle from './home-title';
 import { getNew } from '@/api/home';
+import observe from '@/utils/IntersectionObserver';
+import HomeSkeleton from './home-skeleton.vue';
 export default {
 	name: 'HomeNew',
 	data() {
@@ -39,10 +44,13 @@ export default {
 	},
 	components: {
 		HomeTitle,
+		HomeSkeleton,
 	},
 	mounted() {
-		getNew().then(data => {
-			this.result = data.data.result;
+		observe(this.$refs.new, () => {
+			getNew().then(data => {
+				this.result = data.data.result;
+			});
 		});
 	},
 };
@@ -82,20 +90,5 @@ export default {
 			}
 		}
 	}
-}
-/* 进入的起点,离开的终点 */
-.new-enter,
-.new-leave-to {
-	opacity: 0;
-}
-/* 进入进行时,离开进行时 */
-.new-enter-active {
-	transition: all 0.5s;
-}
-
-/* 进入的终点,离开的起点 */
-.new-enter-to,
-.new-leave {
-	opacity: 1;
 }
 </style>
