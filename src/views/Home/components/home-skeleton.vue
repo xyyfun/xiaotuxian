@@ -1,5 +1,5 @@
 <template>
-	<div class="home-skeleton" :style="{ father }">
+	<div class="home-skeleton" :style="{ height: father }">
 		<ul :style="{ height }">
 			<li :style="{ width, height }" v-for="(item, index) in number" :key="index">
 				<XtxSkeleton :width="width" :height="height" animated />

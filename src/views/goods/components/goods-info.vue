@@ -37,12 +37,17 @@
 				<li>
 					<p>收藏人气</p>
 					<p>600+</p>
-					<p @click="collectGoods"><i class="iconfont icon-shoucang"></i>收藏商品</p>
+					<p v-if="result.isCollect" @click="unCollect">
+						<i class="iconfont icon-shoucang"></i>已收藏
+					</p>
+					<p v-else @click="collectGoods"><i class="iconfont icon-shoucang1"></i>收藏商品</p>
 				</li>
 				<li>
 					<p>品牌信息</p>
 					<p>苏宁电器</p>
-					<p><i class="iconfont icon-home2"></i>品牌主页</p>
+					<p @click="$router.push(result.categories[0].id)">
+						<i class="iconfont icon-home2"></i>品牌主页
+					</p>
 				</li>
 			</ul>
 		</div>
@@ -64,10 +69,11 @@
 					<dd>
 						<b style="vertical-align: middle; padding-right: 5px; font-weight: normal">至</b>
 						<div class="xtx-city">
-							<div class="select">
-								<span class="value">北京市 市辖区 东城区</span
+							<div class="select" @click="isShowCity = !isShowCity">
+								<span class="value">{{ deliver }}</span
 								><i class="iconfont icon-moreunfold"></i>
 							</div>
+							<XtxNationalAddress v-if="isShowCity" />
 						</div>
 					</dd>
 				</dl>
@@ -117,8 +123,9 @@
 
 <script>
 import { addCart } from '@/api/cart';
-import { addCollect } from '@/api/member';
+import { addCollect, cancelCollect } from '@/api/member';
 import getPowerSet from '@/utils/power-set';
+import XtxNationalAddress from '@/components/library/xtx-national-address';
 export default {
 	name: 'GoodsInfo',
 	data() {
@@ -130,12 +137,15 @@ export default {
 				backgroundPositionX: 0,
 				backgroundPositionY: 0,
 			},
+			isShowCity: false,
+			deliver: '北京市 市辖区 东城区', // 配送地址
 			error: require('../../../assets/images/200.png'),
 			pathMap: null, // 字典
 			spec: '', // 规格
 			symbol: '※',
 		};
 	},
+	components: { XtxNationalAddress },
 	props: ['result'],
 	watch: {
 		result(newVal) {
@@ -264,16 +274,35 @@ export default {
 		// 添加收藏
 		collectGoods() {
 			addCollect([this.result.id], 1).then(
-				resolv => {
+				() => {
 					this.$message({
 						type: 'success',
 						message: '收藏成功!',
 					});
+					this.$bus.$emit('handlerCollect', true);
 				},
-				reject => {
+				() => {
 					this.$message({
 						type: 'error',
 						message: '收藏失败，请稍后再试!',
+					});
+				}
+			);
+		},
+		// 取消收藏
+		unCollect() {
+			cancelCollect([this.result.id], 1).then(
+				() => {
+					this.$message({
+						type: 'success',
+						message: '取消收藏成功!',
+					});
+					this.$bus.$emit('handlerCollect', false);
+				},
+				() => {
+					this.$message({
+						type: 'error',
+						message: '操作失败，请稍后再试!',
 					});
 				}
 			);
@@ -307,8 +336,15 @@ export default {
 			};
 		},
 	},
+	mounted() {
+		this.$bus.$on('city', address => {
+			this.deliver = address;
+			this.isShowCity = false;
+		});
+	},
 	beforeDestroy() {
-		this.$off(['load']);
+		this.$off();
+		this.$bus.$off();
 	},
 };
 </script>
@@ -478,6 +514,7 @@ export default {
 						font-weight: normal;
 					}
 					.xtx-city {
+						position: relative;
 						display: inline-block;
 						vertical-align: middle;
 						.select {

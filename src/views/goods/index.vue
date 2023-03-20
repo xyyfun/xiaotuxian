@@ -48,6 +48,8 @@ export default {
 				specs: this.result.specs,
 				mainPictures: this.result.mainPictures,
 				id: this.result.id,
+				isCollect: this.result.isCollect,
+				categories: this.result.categories,
 			};
 			return obj;
 		},
@@ -145,6 +147,14 @@ export default {
 			});
 			this.$bus.$emit('bread', bread);
 		},
+	},
+	mounted() {
+		this.$bus.$on('handlerCollect', boo => {
+			this.result.isCollect = boo;
+		});
+	},
+	beforeDestroy() {
+		this.$bus.$off();
 	},
 };
 </script>

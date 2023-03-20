@@ -30,14 +30,14 @@ export default {
 	},
 	methods: {
 		getCityData() {
-			return new Promise((resolv, reject) => {
+			return new Promise((resolve, reject) => {
 				if (this.cityData.length) {
-					resolv(this.cityData);
+					resolve(this.cityData);
 				} else {
 					const url = 'https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tuxian/area.json';
 					axios.get(url).then(res => {
 						this.cityData = res.data;
-						resolv(res.data);
+						resolve(res.data);
 					});
 				}
 			});

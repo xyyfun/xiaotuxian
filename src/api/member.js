@@ -44,7 +44,7 @@ export const cancelCollect = (ids, type) => {
 		url: '/member/collect/batch',
 		method: 'delete',
 		header: { 'Content-Type': 'application/json' },
-		data: { ids: [ids], type },
+		data: { ids, type },
 	});
 };
 
