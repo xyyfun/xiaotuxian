@@ -111,11 +111,12 @@ export default {
 							message: '登录成功！',
 							type: 'success',
 						});
+						this.$store.dispatch('cart/getCartDataList');
 						this.$router.push('/home');
 					},
 					error => {
 						this.$message({
-							message: error.message,
+							message: error.response.data.message,
 							type: 'error',
 						});
 					}

@@ -19,7 +19,7 @@
 					<dd class="download">
 						<span>扫描二维码</span>
 						<span>立马下载APP</span>
-						<a href="javascript:;">下载页面</a>
+						<router-link to="/download">下载页面</router-link>
 					</dd>
 				</dl>
 				<dl>

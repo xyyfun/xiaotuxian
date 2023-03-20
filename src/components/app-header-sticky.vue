@@ -49,6 +49,9 @@ export default {
 	mounted() {
 		window.addEventListener('scroll', this.isShowHeader);
 	},
+	beforeDestroy() {
+		window.removeEventListener('scroll', this.isShowHeader);
+	},
 };
 </script>
 
