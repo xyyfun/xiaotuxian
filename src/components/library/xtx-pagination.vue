@@ -10,8 +10,7 @@
 			v-show="item >= startNumAndEndNum.start"
 			@click="$emit('changePage', item)"
 			:class="{ active: pageNo === item }"
-			:disabled="pageNo === item"
-		>
+			:disabled="pageNo === item">
 			{{ item }}
 		</button>
 

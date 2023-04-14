@@ -56,7 +56,7 @@ ul {
 }
 /* 进入的起点,离开的终点 */
 .fade-enter,
-.new-leave-to {
+.fade-leave-to {
   opacity: 0;
 }
 /* 进入进行时,离开进行时 */

@@ -6,7 +6,7 @@ export default function observe(element, callback) {
 			// 防止过快切换导致画面闪烁
 			setTimeout(() => {
 				callback(); // 调用回调函数
-			}, 200);
+			}, 500);
 			observe.unobserve(element); // 业务处理完成后取消监听
 		}
 	});
